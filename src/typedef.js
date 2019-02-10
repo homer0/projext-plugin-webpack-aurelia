@@ -10,7 +10,13 @@
  */
 
 /**
- * @external {TargetDefaultHTMLSettings}
- * https://homer0.github.io/projext/typedef/index.html#static-typedef-TargetDefaultHTMLSettings
+ * @external {BabelHelper}
+ * https://homer0.github.io/projext/class/src/services/common/babelHelper.js~BabelHelper.html
+ * @ignore
+ */
+
+/**
+ * @external {WebpackConfigurationParams}
+ * https://homer0.github.io/projext-plugin-webpack/typedef/index.html#static-typedef-WebpackConfigurationParams
  * @ignore
  */

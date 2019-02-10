@@ -9,7 +9,14 @@ Allows you to bundle an [Aurelia](https://aurelia.io) project with [projext](htt
 
 ## Introduction
 
-...
+[projext](https://yarnpkg.com/en/package/projext) allows you to configure a project without adding specific settings for a module bundler, then you can decide which build engine to use. This plugin is meant to be used when you are bundling an [Aurelia](https://aurelia.io) application and you are using the [webpack](https://webpack.js.org) [build engine](https://yarnpkg.com/en/package/projext-plugin-webpack).
+
+The plugin basically follows the instructions from the [Aurelia webpack skeleton example](https://github.com/aurelia/skeleton-navigation/tree/master/skeleton-esnext-webpack), configures Aurelia entry point the [Aurelia webpack plugin](https://yarnpkg.com/en/package/aurelia-webpack-plugin).
+
+It also adds a few extra functionalities:
+
+- [`aurelia-extract-clean-loader`](https://yarnpkg.com/en/package/aurelia-extract-clean-loader): To avoid duplicated CSS (on the JS and CSS) when using [`mini-css-extract-plugin`](https://yarnpkg.com/en/package/mini-css-extract-plugin).
+- [`babel-plugin-transform-class-inject-directive`](https://yarnpkg.com/en/package/babel-plugin-transform-class-inject-directive): To be able to use the `inject` directive on classes.
 
 ## Information
 
@@ -21,7 +28,19 @@ Allows you to bundle an [Aurelia](https://aurelia.io) project with [projext](htt
 
 ## Usage
 
-...
+You first need the build engine, so install [`projext-plugin-webpack`](https://yarnpkg.com/en/package/projext-plugin-webpack).
+
+Now, if your target entry file imports `aurelia-framework` or `aurelia-pal`, projext will automatically set the target `framework` property to `aurelia`; otherwise you'll have to do it manually.
+
+Finally, on your target entry file:
+
+```js
+export const configure = (aurelia) => {
+  ...
+}
+```
+
+Done! Just configure your Aurelia plugins/components and run your target!
 
 ## Development
 
