@@ -1214,6 +1214,13 @@ babel-plugin-jest-hoist@^24.1.0:
   resolved "https://registry.yarnpkg.com/babel-plugin-jest-hoist/-/babel-plugin-jest-hoist-24.1.0.tgz#dfecc491fb15e2668abbd690a697a8fd1411a7f8"
   integrity sha512-gljYrZz8w1b6fJzKcsfKsipSru2DU2DmQ39aB6nV3xQ0DDv3zpIzKGortA5gknrhNnPN8DweaEgrnZdmbGmhnw==
 
+babel-plugin-transform-class-inject-directive@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-class-inject-directive/-/babel-plugin-transform-class-inject-directive-2.0.0.tgz#c4c0ded652995cf1eecc34abbe4dfbc957971061"
+  integrity sha512-KTVuv1Bc3wNoOhM2szNRnvGwv5V3YQKhBV62qsCNsOrKabUKPbLBdqPZKEp/DZjT4Q0DTklunIVReUUPbvt3NQ==
+  dependencies:
+    "@babel/types" "^7.3.2"
+
 babel-preset-jest@^24.1.0:
   version "24.1.0"
   resolved "https://registry.yarnpkg.com/babel-preset-jest/-/babel-preset-jest-24.1.0.tgz#83bc564fdcd4903641af65ec63f2f5de6b04132e"
