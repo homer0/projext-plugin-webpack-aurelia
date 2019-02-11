@@ -56,8 +56,12 @@ class ProjextAureliaPlugin {
      */
     this._babelRequiredPlugins = [
       'transform-class-inject-directive',
-      '@babel/plugin-proposal-class-properties',
-      '@babel/plugin-proposal-decorators',
+      ['@babel/plugin-proposal-decorators', {
+        legacy: true,
+      }],
+      ['@babel/plugin-proposal-class-properties', {
+        loose: true,
+      }],
     ];
     /**
      * The required value a target `framework` setting needs to have in order for the plugin to

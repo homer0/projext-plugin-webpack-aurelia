@@ -466,8 +466,12 @@ describe('plugin:projextAurelia/main', () => {
     let result = null;
     const expectedPlugins = [
       'transform-class-inject-directive',
-      '@babel/plugin-proposal-class-properties',
-      '@babel/plugin-proposal-decorators',
+      ['@babel/plugin-proposal-decorators', {
+        legacy: true,
+      }],
+      ['@babel/plugin-proposal-class-properties', {
+        loose: true,
+      }],
     ];
     // When
     sut = new ProjextAureliaPlugin();
