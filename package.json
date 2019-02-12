@@ -17,7 +17,6 @@
       "aurelia-dependency-injection": "^1.4.2",
       "aurelia-path": "^1.1.2",
 
-      "jsdom": "~11.5.1",
       "webpack": "^4.29.1",
       "babel-plugin-transform-class-inject-directive": "2.0.0"
     },
