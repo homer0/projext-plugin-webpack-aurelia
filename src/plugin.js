@@ -46,6 +46,7 @@ class ProjextAureliaPlugin {
     this._loaders = {
       cleanExtract: 'aurelia-extract-clean-loader',
       htmlRequires: 'aurelia-webpack-plugin/html-requires-loader',
+      htmlModulesFix: path.resolve(path.join(__dirname, 'htmlLoader')),
     };
     /**
      * A list of Babel plugins that need to be on the target Babel configuration in order to
@@ -135,8 +136,11 @@ class ProjextAureliaPlugin {
     ));
   }
   /**
-   * Updates a target HTML rules and add the `aurelia-extract-clean-loader` loader, which allows
-   * you to extract all your CSS imported from HTML with `mini-css-extract-plugin`.
+   * Updates a target HTML rules and adds:
+   * - The `aurelia-extract-clean-loader` loader and the, which allows you to extract all your CSS
+   * imported from HTML with `mini-css-extract-plugin`.
+   * - The custom loader the fixes HTML modules being exported with ES modules syntax, so they
+   * won't break the Aurelia's loader (which doesn't support `export default`).
    * @param {Array} rules The original rules.
    * @return {Array}
    * @access protected
@@ -145,7 +149,10 @@ class ProjextAureliaPlugin {
   _updateHTMLRules(rules) {
     const newRules = rules.slice();
     const [firstRule] = newRules;
-    firstRule.use.unshift(this._loaders.cleanExtract);
+    firstRule.use.unshift(...[
+      this._loaders.cleanExtract,
+      this._loaders.htmlModulesFix,
+    ]);
     return newRules;
   }
   /**
