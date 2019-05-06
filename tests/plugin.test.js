@@ -110,15 +110,21 @@ describe('plugin:projextAurelia/main', () => {
     let sut = null;
     let reducer = null;
     let result = null;
+    let customHTMLLoader = null;
     // When
     sut = new ProjextAureliaPlugin();
     sut.register(app);
     [[, reducer]] = events.on.mock.calls;
     result = reducer(htmlRules, params);
+    [{ use: [, customHTMLLoader] }] = result;
     // Then
     expect(result).toEqual([{
-      use: ['aurelia-extract-clean-loader'],
+      use: [
+        'aurelia-extract-clean-loader',
+        expect.any(String),
+      ],
     }]);
+    expect(customHTMLLoader).toMatch(/htmlLoader$/i);
   });
 
   it('should add an extra HTML rule for a target', () => {
