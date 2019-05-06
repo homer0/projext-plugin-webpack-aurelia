@@ -2,7 +2,7 @@
     "name": "projext-plugin-webpack-aurelia",
     "description": "Allows you to bundle an Aurelia project with projext using the webpack build engine.",
     "homepage": "https://homer0.github.io/projext-plugin-webpack-aurelia/",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "repository": "homer0/projext-plugin-webpack-aurelia",
     "author": "Leonardo Apiwan (@homer0) <me@homer0.com>",
     "license": "MIT",
