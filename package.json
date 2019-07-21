@@ -7,7 +7,7 @@
     "author": "Leonardo Apiwan (@homer0) <me@homer0.com>",
     "license": "MIT",
     "dependencies": {
-      "aurelia-extract-clean-loader": "^2.0.0",
+      "aurelia-extract-clean-loader": "^2.0.1",
       "aurelia-webpack-plugin": "^4.0.0",
       "aurelia-loader-webpack": "^2.2.1",
       "aurelia-loader-nodejs": "^1.0.1",

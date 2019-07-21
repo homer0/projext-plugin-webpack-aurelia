@@ -1377,10 +1377,10 @@ aurelia-dependency-injection@^1.0.0, aurelia-dependency-injection@^1.4.2:
     aurelia-metadata "^1.0.0"
     aurelia-pal "^1.0.0"
 
-aurelia-extract-clean-loader@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/aurelia-extract-clean-loader/-/aurelia-extract-clean-loader-2.0.0.tgz#df8044338123b5205dc197a784c9e4925a5f80fb"
-  integrity sha512-Os5FBxTSMoeYeXp3PB+9dmRQsJ4DlEnkR7d7nzMeKaIfnUj83sfVKp7wgDUiVkFB3axDLwhAYDLc7mTCyxe11A==
+aurelia-extract-clean-loader@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/aurelia-extract-clean-loader/-/aurelia-extract-clean-loader-2.0.1.tgz#bc4f37c262128a07998fe294540d71daf8d49cda"
+  integrity sha512-Jty/uvfqGsKi+sBnWQ6Lu3T61OEgBK6OprDV/DCK3rkiBXq3l4irESR8AhQnmn10datVSsHbLcPok57P63Ajsw==
   dependencies:
     loader-utils "^1.2.3"
 
