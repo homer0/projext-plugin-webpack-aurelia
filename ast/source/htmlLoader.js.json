@@ -1,0 +1,1361 @@
+{
+  "type": "File",
+  "start": 0,
+  "end": 727,
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 20,
+      "column": 0
+    }
+  },
+  "program": {
+    "type": "Program",
+    "start": 0,
+    "end": 727,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 20,
+        "column": 0
+      }
+    },
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "VariableDeclaration",
+        "start": 127,
+        "end": 195,
+        "loc": {
+          "start": {
+            "line": 6,
+            "column": 0
+          },
+          "end": {
+            "line": 6,
+            "column": 68
+          }
+        },
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "start": 133,
+            "end": 194,
+            "loc": {
+              "start": {
+                "line": 6,
+                "column": 6
+              },
+              "end": {
+                "line": 6,
+                "column": 67
+              }
+            },
+            "id": {
+              "type": "Identifier",
+              "start": 133,
+              "end": 143,
+              "loc": {
+                "start": {
+                  "line": 6,
+                  "column": 6
+                },
+                "end": {
+                  "line": 6,
+                  "column": 16
+                },
+                "identifierName": "expression"
+              },
+              "name": "expression",
+              "leadingComments": null
+            },
+            "init": {
+              "type": "RegExpLiteral",
+              "start": 146,
+              "end": 194,
+              "loc": {
+                "start": {
+                  "line": 6,
+                  "column": 19
+                },
+                "end": {
+                  "line": 6,
+                  "column": 67
+                }
+              },
+              "extra": {
+                "raw": "/^\\s*export\\s*default\\s*([\"|']\\s*<template\\s*)/i"
+              },
+              "pattern": "^\\s*export\\s*default\\s*([\"|']\\s*<template\\s*)",
+              "flags": "i"
+            },
+            "leadingComments": null
+          }
+        ],
+        "kind": "const",
+        "leadingComments": [
+          {
+            "type": "CommentBlock",
+            "value": "*\n * A regular expression to match HTML views that are expored using the ES modules syntax.\n * @type {RegExp}\n * @ignore\n ",
+            "start": 0,
+            "end": 126,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 0
+              },
+              "end": {
+                "line": 5,
+                "column": 3
+              }
+            }
+          }
+        ],
+        "trailingComments": [
+          {
+            "type": "CommentBlock",
+            "value": "*\n * Checks if an HTML file is an Aurelia view that is being exported using ES modules and replaces\n * the syntax in order to use `module.exports`. The issue here is that the Aurelia's webpack\n * plugin doesn't use ES modules and when the view is loaded, the HTML is inside a `default`\n * property, which breaks the Aurelia's loader.\n * @param {String} source The module's code.\n * @return {String}\n ",
+            "start": 196,
+            "end": 600,
+            "loc": {
+              "start": {
+                "line": 7,
+                "column": 0
+              },
+              "end": {
+                "line": 14,
+                "column": 3
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "ExportDefaultDeclaration",
+        "start": 601,
+        "end": 726,
+        "loc": {
+          "start": {
+            "line": 15,
+            "column": 0
+          },
+          "end": {
+            "line": 19,
+            "column": 2
+          }
+        },
+        "declaration": {
+          "type": "ArrowFunctionExpression",
+          "start": 616,
+          "end": 725,
+          "loc": {
+            "start": {
+              "line": 15,
+              "column": 15
+            },
+            "end": {
+              "line": 19,
+              "column": 1
+            }
+          },
+          "id": null,
+          "generator": false,
+          "expression": true,
+          "async": false,
+          "params": [
+            {
+              "type": "Identifier",
+              "start": 617,
+              "end": 623,
+              "loc": {
+                "start": {
+                  "line": 15,
+                  "column": 16
+                },
+                "end": {
+                  "line": 15,
+                  "column": 22
+                },
+                "identifierName": "source"
+              },
+              "name": "source",
+              "leadingComments": null
+            }
+          ],
+          "body": {
+            "type": "ConditionalExpression",
+            "start": 632,
+            "end": 723,
+            "loc": {
+              "start": {
+                "line": 16,
+                "column": 2
+              },
+              "end": {
+                "line": 18,
+                "column": 10
+              }
+            },
+            "test": {
+              "type": "CallExpression",
+              "start": 632,
+              "end": 656,
+              "loc": {
+                "start": {
+                  "line": 16,
+                  "column": 2
+                },
+                "end": {
+                  "line": 16,
+                  "column": 26
+                }
+              },
+              "callee": {
+                "type": "MemberExpression",
+                "start": 632,
+                "end": 644,
+                "loc": {
+                  "start": {
+                    "line": 16,
+                    "column": 2
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 14
+                  }
+                },
+                "object": {
+                  "type": "Identifier",
+                  "start": 632,
+                  "end": 638,
+                  "loc": {
+                    "start": {
+                      "line": 16,
+                      "column": 2
+                    },
+                    "end": {
+                      "line": 16,
+                      "column": 8
+                    },
+                    "identifierName": "source"
+                  },
+                  "name": "source"
+                },
+                "property": {
+                  "type": "Identifier",
+                  "start": 639,
+                  "end": 644,
+                  "loc": {
+                    "start": {
+                      "line": 16,
+                      "column": 9
+                    },
+                    "end": {
+                      "line": 16,
+                      "column": 14
+                    },
+                    "identifierName": "match"
+                  },
+                  "name": "match"
+                },
+                "computed": false
+              },
+              "arguments": [
+                {
+                  "type": "Identifier",
+                  "start": 645,
+                  "end": 655,
+                  "loc": {
+                    "start": {
+                      "line": 16,
+                      "column": 15
+                    },
+                    "end": {
+                      "line": 16,
+                      "column": 25
+                    },
+                    "identifierName": "expression"
+                  },
+                  "name": "expression"
+                }
+              ]
+            },
+            "consequent": {
+              "type": "CallExpression",
+              "start": 663,
+              "end": 710,
+              "loc": {
+                "start": {
+                  "line": 17,
+                  "column": 4
+                },
+                "end": {
+                  "line": 17,
+                  "column": 51
+                }
+              },
+              "callee": {
+                "type": "MemberExpression",
+                "start": 663,
+                "end": 677,
+                "loc": {
+                  "start": {
+                    "line": 17,
+                    "column": 4
+                  },
+                  "end": {
+                    "line": 17,
+                    "column": 18
+                  }
+                },
+                "object": {
+                  "type": "Identifier",
+                  "start": 663,
+                  "end": 669,
+                  "loc": {
+                    "start": {
+                      "line": 17,
+                      "column": 4
+                    },
+                    "end": {
+                      "line": 17,
+                      "column": 10
+                    },
+                    "identifierName": "source"
+                  },
+                  "name": "source"
+                },
+                "property": {
+                  "type": "Identifier",
+                  "start": 670,
+                  "end": 677,
+                  "loc": {
+                    "start": {
+                      "line": 17,
+                      "column": 11
+                    },
+                    "end": {
+                      "line": 17,
+                      "column": 18
+                    },
+                    "identifierName": "replace"
+                  },
+                  "name": "replace"
+                },
+                "computed": false
+              },
+              "arguments": [
+                {
+                  "type": "Identifier",
+                  "start": 678,
+                  "end": 688,
+                  "loc": {
+                    "start": {
+                      "line": 17,
+                      "column": 19
+                    },
+                    "end": {
+                      "line": 17,
+                      "column": 29
+                    },
+                    "identifierName": "expression"
+                  },
+                  "name": "expression"
+                },
+                {
+                  "type": "StringLiteral",
+                  "start": 690,
+                  "end": 709,
+                  "loc": {
+                    "start": {
+                      "line": 17,
+                      "column": 31
+                    },
+                    "end": {
+                      "line": 17,
+                      "column": 50
+                    }
+                  },
+                  "extra": {
+                    "rawValue": "export default $1",
+                    "raw": "'export default $1'"
+                  },
+                  "value": "export default $1"
+                }
+              ]
+            },
+            "alternate": {
+              "type": "Identifier",
+              "start": 717,
+              "end": 723,
+              "loc": {
+                "start": {
+                  "line": 18,
+                  "column": 4
+                },
+                "end": {
+                  "line": 18,
+                  "column": 10
+                },
+                "identifierName": "source"
+              },
+              "name": "source"
+            },
+            "extra": {
+              "parenthesized": true,
+              "parenStart": 628
+            }
+          },
+          "leadingComments": [
+            {
+              "type": "CommentBlock",
+              "value": "*\n * Checks if an HTML file is an Aurelia view that is being exported using ES modules and replaces\n * the syntax in order to use `module.exports`. The issue here is that the Aurelia's webpack\n * plugin doesn't use ES modules and when the view is loaded, the HTML is inside a `default`\n * property, which breaks the Aurelia's loader.\n * @param {String} source The module's code.\n * @return {String}\n ",
+              "start": 196,
+              "end": 600,
+              "loc": {
+                "start": {
+                  "line": 7,
+                  "column": 0
+                },
+                "end": {
+                  "line": 14,
+                  "column": 3
+                }
+              }
+            }
+          ],
+          "trailingComments": []
+        },
+        "leadingComments": [
+          {
+            "type": "CommentBlock",
+            "value": "*\n * Checks if an HTML file is an Aurelia view that is being exported using ES modules and replaces\n * the syntax in order to use `module.exports`. The issue here is that the Aurelia's webpack\n * plugin doesn't use ES modules and when the view is loaded, the HTML is inside a `default`\n * property, which breaks the Aurelia's loader.\n * @param {String} source The module's code.\n * @return {String}\n ",
+            "start": 196,
+            "end": 600,
+            "loc": {
+              "start": {
+                "line": 7,
+                "column": 0
+              },
+              "end": {
+                "line": 14,
+                "column": 3
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "directives": []
+  },
+  "comments": [
+    {
+      "type": "CommentBlock",
+      "value": "*\n * A regular expression to match HTML views that are expored using the ES modules syntax.\n * @type {RegExp}\n * @ignore\n ",
+      "start": 0,
+      "end": 126,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 5,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * Checks if an HTML file is an Aurelia view that is being exported using ES modules and replaces\n * the syntax in order to use `module.exports`. The issue here is that the Aurelia's webpack\n * plugin doesn't use ES modules and when the view is loaded, the HTML is inside a `default`\n * property, which breaks the Aurelia's loader.\n * @param {String} source The module's code.\n * @return {String}\n ",
+      "start": 196,
+      "end": 600,
+      "loc": {
+        "start": {
+          "line": 7,
+          "column": 0
+        },
+        "end": {
+          "line": 14,
+          "column": 3
+        }
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "type": "CommentBlock",
+      "value": "*\n * A regular expression to match HTML views that are expored using the ES modules syntax.\n * @type {RegExp}\n * @ignore\n ",
+      "start": 0,
+      "end": 126,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 5,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "const",
+        "keyword": "const",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "const",
+      "start": 127,
+      "end": 132,
+      "loc": {
+        "start": {
+          "line": 6,
+          "column": 0
+        },
+        "end": {
+          "line": 6,
+          "column": 5
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "expression",
+      "start": 133,
+      "end": 143,
+      "loc": {
+        "start": {
+          "line": 6,
+          "column": 6
+        },
+        "end": {
+          "line": 6,
+          "column": 16
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "=",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": true,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "=",
+      "start": 144,
+      "end": 145,
+      "loc": {
+        "start": {
+          "line": 6,
+          "column": 17
+        },
+        "end": {
+          "line": 6,
+          "column": 18
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "regexp",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": {
+        "pattern": "^\\s*export\\s*default\\s*([\"|']\\s*<template\\s*)",
+        "flags": "i"
+      },
+      "start": 146,
+      "end": 194,
+      "loc": {
+        "start": {
+          "line": 6,
+          "column": 19
+        },
+        "end": {
+          "line": 6,
+          "column": 67
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ";",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 194,
+      "end": 195,
+      "loc": {
+        "start": {
+          "line": 6,
+          "column": 67
+        },
+        "end": {
+          "line": 6,
+          "column": 68
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * Checks if an HTML file is an Aurelia view that is being exported using ES modules and replaces\n * the syntax in order to use `module.exports`. The issue here is that the Aurelia's webpack\n * plugin doesn't use ES modules and when the view is loaded, the HTML is inside a `default`\n * property, which breaks the Aurelia's loader.\n * @param {String} source The module's code.\n * @return {String}\n ",
+      "start": 196,
+      "end": 600,
+      "loc": {
+        "start": {
+          "line": 7,
+          "column": 0
+        },
+        "end": {
+          "line": 14,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "export",
+        "keyword": "export",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "export",
+      "start": 601,
+      "end": 607,
+      "loc": {
+        "start": {
+          "line": 15,
+          "column": 0
+        },
+        "end": {
+          "line": 15,
+          "column": 6
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "default",
+        "keyword": "default",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "default",
+      "start": 608,
+      "end": 615,
+      "loc": {
+        "start": {
+          "line": 15,
+          "column": 7
+        },
+        "end": {
+          "line": 15,
+          "column": 14
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "(",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 616,
+      "end": 617,
+      "loc": {
+        "start": {
+          "line": 15,
+          "column": 15
+        },
+        "end": {
+          "line": 15,
+          "column": 16
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "source",
+      "start": 617,
+      "end": 623,
+      "loc": {
+        "start": {
+          "line": 15,
+          "column": 16
+        },
+        "end": {
+          "line": 15,
+          "column": 22
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ")",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 623,
+      "end": 624,
+      "loc": {
+        "start": {
+          "line": 15,
+          "column": 22
+        },
+        "end": {
+          "line": 15,
+          "column": 23
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "=>",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 625,
+      "end": 627,
+      "loc": {
+        "start": {
+          "line": 15,
+          "column": 24
+        },
+        "end": {
+          "line": 15,
+          "column": 26
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "(",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 628,
+      "end": 629,
+      "loc": {
+        "start": {
+          "line": 15,
+          "column": 27
+        },
+        "end": {
+          "line": 15,
+          "column": 28
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "source",
+      "start": 632,
+      "end": 638,
+      "loc": {
+        "start": {
+          "line": 16,
+          "column": 2
+        },
+        "end": {
+          "line": 16,
+          "column": 8
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ".",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 638,
+      "end": 639,
+      "loc": {
+        "start": {
+          "line": 16,
+          "column": 8
+        },
+        "end": {
+          "line": 16,
+          "column": 9
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "match",
+      "start": 639,
+      "end": 644,
+      "loc": {
+        "start": {
+          "line": 16,
+          "column": 9
+        },
+        "end": {
+          "line": 16,
+          "column": 14
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "(",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 644,
+      "end": 645,
+      "loc": {
+        "start": {
+          "line": 16,
+          "column": 14
+        },
+        "end": {
+          "line": 16,
+          "column": 15
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "expression",
+      "start": 645,
+      "end": 655,
+      "loc": {
+        "start": {
+          "line": 16,
+          "column": 15
+        },
+        "end": {
+          "line": 16,
+          "column": 25
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ")",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 655,
+      "end": 656,
+      "loc": {
+        "start": {
+          "line": 16,
+          "column": 25
+        },
+        "end": {
+          "line": 16,
+          "column": 26
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "?",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 657,
+      "end": 658,
+      "loc": {
+        "start": {
+          "line": 16,
+          "column": 27
+        },
+        "end": {
+          "line": 16,
+          "column": 28
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "source",
+      "start": 663,
+      "end": 669,
+      "loc": {
+        "start": {
+          "line": 17,
+          "column": 4
+        },
+        "end": {
+          "line": 17,
+          "column": 10
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ".",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 669,
+      "end": 670,
+      "loc": {
+        "start": {
+          "line": 17,
+          "column": 10
+        },
+        "end": {
+          "line": 17,
+          "column": 11
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "replace",
+      "start": 670,
+      "end": 677,
+      "loc": {
+        "start": {
+          "line": 17,
+          "column": 11
+        },
+        "end": {
+          "line": 17,
+          "column": 18
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "(",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 677,
+      "end": 678,
+      "loc": {
+        "start": {
+          "line": 17,
+          "column": 18
+        },
+        "end": {
+          "line": 17,
+          "column": 19
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "expression",
+      "start": 678,
+      "end": 688,
+      "loc": {
+        "start": {
+          "line": 17,
+          "column": 19
+        },
+        "end": {
+          "line": 17,
+          "column": 29
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ",",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 688,
+      "end": 689,
+      "loc": {
+        "start": {
+          "line": 17,
+          "column": 29
+        },
+        "end": {
+          "line": 17,
+          "column": 30
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "export default $1",
+      "start": 690,
+      "end": 709,
+      "loc": {
+        "start": {
+          "line": 17,
+          "column": 31
+        },
+        "end": {
+          "line": 17,
+          "column": 50
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ")",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 709,
+      "end": 710,
+      "loc": {
+        "start": {
+          "line": 17,
+          "column": 50
+        },
+        "end": {
+          "line": 17,
+          "column": 51
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ":",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 711,
+      "end": 712,
+      "loc": {
+        "start": {
+          "line": 17,
+          "column": 52
+        },
+        "end": {
+          "line": 17,
+          "column": 53
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "source",
+      "start": 717,
+      "end": 723,
+      "loc": {
+        "start": {
+          "line": 18,
+          "column": 4
+        },
+        "end": {
+          "line": 18,
+          "column": 10
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ")",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 724,
+      "end": 725,
+      "loc": {
+        "start": {
+          "line": 19,
+          "column": 0
+        },
+        "end": {
+          "line": 19,
+          "column": 1
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ";",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 725,
+      "end": 726,
+      "loc": {
+        "start": {
+          "line": 19,
+          "column": 1
+        },
+        "end": {
+          "line": 19,
+          "column": 2
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "eof",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 727,
+      "end": 727,
+      "loc": {
+        "start": {
+          "line": 20,
+          "column": 0
+        },
+        "end": {
+          "line": 20,
+          "column": 0
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl">
+  <title data-ice="title">Home | projext-plugin-webpack-aurelia</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="Allows you to bundle an Aurelia project with projext using the webpack build engine."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="projext-plugin-webpack-aurelia"><meta property="twitter:description" content="Allows you to bundle an Aurelia project with projext using the webpack build engine."></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/homer0/projext-plugin-webpack-aurelia"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugin.js~ProjextAureliaPlugin.html">ProjextAureliaPlugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-htmlLoader">htmlLoader</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://homer0.github.io/projext/class/src/app/index.js~Projext.html">Projext</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="projext-plugin-for-aurelia-on-webpack">projext plugin for Aurelia on webpack</h1><p><a href="https://travis-ci.org/homer0/projext-plugin-webpack-aurelia"><img src="https://img.shields.io/travis/homer0/projext-plugin-webpack-aurelia.svg?style=flat-square" alt="Travis"></a>
+<a href="https://coveralls.io/github/homer0/projext-plugin-webpack-aurelia?branch=master"><img src="https://img.shields.io/coveralls/github/homer0/projext-plugin-webpack-aurelia.svg?style=flat-square" alt="Coveralls github"></a>
+<a href="https://david-dm.org/homer0/projext-plugin-webpack-aurelia"><img src="https://img.shields.io/david/homer0/projext-plugin-webpack-aurelia.svg?style=flat-square" alt="David"></a>
+<a href="https://david-dm.org/homer0/projext-plugin-webpack-aurelia"><img src="https://img.shields.io/david/dev/homer0/projext-plugin-webpack-aurelia.svg?style=flat-square" alt="David"></a></p>
+<p>Allows you to bundle an <a href="https://aurelia.io">Aurelia</a> project with <a href="https://yarnpkg.com/en/package/projext">projext</a> using the <a href="https://webpack.js.org">webpack</a> <a href="https://yarnpkg.com/en/package/projext-plugin-webpack">build engine</a>.</p>
+<h2 id="introduction">Introduction</h2><p><a href="https://yarnpkg.com/en/package/projext">projext</a> allows you to configure a project without adding specific settings for a module bundler, then you can decide which build engine to use. This plugin is meant to be used when you are bundling an <a href="https://aurelia.io">Aurelia</a> application and you are using the <a href="https://webpack.js.org">webpack</a> <a href="https://yarnpkg.com/en/package/projext-plugin-webpack">build engine</a>.</p>
+<p>The plugin basically follows the instructions from the <a href="https://github.com/aurelia/skeleton-navigation/tree/master/skeleton-esnext-webpack">Aurelia webpack skeleton example</a>, configures Aurelia entry point the <a href="https://yarnpkg.com/en/package/aurelia-webpack-plugin">Aurelia webpack plugin</a>.</p>
+<p>It also adds a few extra functionalities:</p>
+<ul>
+<li><a href="https://yarnpkg.com/en/package/aurelia-extract-clean-loader"><code>aurelia-extract-clean-loader</code></a>: To avoid duplicated CSS (on the JS and CSS) when using <a href="https://yarnpkg.com/en/package/mini-css-extract-plugin"><code>mini-css-extract-plugin</code></a>.</li>
+<li><a href="https://yarnpkg.com/en/package/babel-plugin-transform-class-inject-directive"><code>babel-plugin-transform-class-inject-directive</code></a>: To be able to use the <code>inject</code> directive on classes.</li>
+</ul>
+<h2 id="information">Information</h2><table>
+<thead>
+<tr>
+<th>-</th>
+<th>-</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Package</td>
+<td>projext-plugin-webpack-aurelia</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Allows you to bundle an Aurelia project with projext using the webpack build engine.</td>
+</tr>
+<tr>
+<td>Node Version</td>
+<td>&gt;= v8.0.0</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2><p>You first need the build engine, so install <a href="https://yarnpkg.com/en/package/projext-plugin-webpack"><code>projext-plugin-webpack</code></a>.</p>
+<p>Now, if your target entry file imports <code>aurelia-framework</code> or <code>aurelia-pal</code>, projext will automatically set the target <code>framework</code> property to <code>aurelia</code>; otherwise you&apos;ll have to do it manually.</p>
+<p>Finally, on your target entry file:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">export const configure = (aurelia) =&gt; {
+  ...
+}</code>
+</code></pre>
+<p>Done! Just configure your Aurelia plugins/components and run your target!</p>
+<h2 id="development">Development</h2><h3 id="yarn-npm-tasks">Yarn/NPM Tasks</h3><table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>yarn test</code></td>
+<td>Run the project unit tests.</td>
+</tr>
+<tr>
+<td><code>yarn run lint</code></td>
+<td>Lint the modified files.</td>
+</tr>
+<tr>
+<td><code>yarn run lint:full</code></td>
+<td>Lint the project code.</td>
+</tr>
+<tr>
+<td><code>yarn run docs</code></td>
+<td>Generate the project documentation.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="testing">Testing</h3><p>I use <a href="https://facebook.github.io/jest/">Jest</a> with <a href="https://yarnpkg.com/en/package/jest-ex">Jest-Ex</a> to test the project. The configuration file is on <code>./.jestrc</code>, the tests and mocks are on <code>./tests</code> and the script that runs it is on <code>./utils/scripts/test</code>.</p>
+<h3 id="linting">Linting</h3><p>I use <a href="http://eslint.org">ESlint</a> to validate all our JS code. The configuration file for the project code is on <code>./.eslintrc</code> and for the tests on <code>./tests/.eslintrc</code> (which inherits from the one on the root), there&apos;s also an <code>./.eslintignore</code> to ignore some files on the process, and the script that runs it is on <code>./utils/scripts/lint</code>.</p>
+<h3 id="documentation">Documentation</h3><p>I use <a href="http://esdoc.org">ESDoc</a> to generate HTML documentation for the project. The configuration file is on <code>./.esdocrc</code> and the script that runs it is on <code>./utils/scripts/docs</code>.</p>
+</div>
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

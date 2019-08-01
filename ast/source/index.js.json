@@ -1,0 +1,1743 @@
+{
+  "type": "File",
+  "start": 0,
+  "end": 423,
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 14,
+      "column": 0
+    }
+  },
+  "program": {
+    "type": "Program",
+    "start": 0,
+    "end": 423,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 14,
+        "column": 0
+      }
+    },
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "ImportDeclaration",
+        "start": 0,
+        "end": 44,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 44
+          }
+        },
+        "specifiers": [
+          {
+            "type": "ImportDefaultSpecifier",
+            "start": 7,
+            "end": 27,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 7
+              },
+              "end": {
+                "line": 1,
+                "column": 27
+              }
+            },
+            "local": {
+              "type": "Identifier",
+              "start": 7,
+              "end": 27,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 7
+                },
+                "end": {
+                  "line": 1,
+                  "column": 27
+                },
+                "identifierName": "ProjextAureliaPlugin"
+              },
+              "name": "ProjextAureliaPlugin"
+            }
+          }
+        ],
+        "source": {
+          "type": "StringLiteral",
+          "start": 33,
+          "end": 43,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 33
+            },
+            "end": {
+              "line": 1,
+              "column": 43
+            }
+          },
+          "extra": {
+            "rawValue": "./plugin",
+            "raw": "'./plugin'"
+          },
+          "value": "./plugin"
+        },
+        "trailingComments": [
+          {
+            "type": "CommentBlock",
+            "value": "*\n * This is the method called by projext when loading the plugin. It takes care of creating\n * a new instance of the plugin class and use it to register for the required events.\n * @param {Projext} app The projext main container.\n * @ignore\n ",
+            "start": 45,
+            "end": 292,
+            "loc": {
+              "start": {
+                "line": 2,
+                "column": 0
+              },
+              "end": {
+                "line": 7,
+                "column": 3
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "Identifier",
+        "start": 293,
+        "end": 394,
+        "loc": {
+          "start": {
+            "line": 8,
+            "column": 0
+          },
+          "end": {
+            "line": 11,
+            "column": 2
+          }
+        },
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "start": 299,
+            "end": 393,
+            "loc": {
+              "start": {
+                "line": 8,
+                "column": 6
+              },
+              "end": {
+                "line": 11,
+                "column": 1
+              }
+            },
+            "id": {
+              "type": "Identifier",
+              "start": 299,
+              "end": 309,
+              "loc": {
+                "start": {
+                  "line": 8,
+                  "column": 6
+                },
+                "end": {
+                  "line": 8,
+                  "column": 16
+                },
+                "identifierName": "loadPlugin"
+              },
+              "name": "loadPlugin",
+              "leadingComments": null
+            },
+            "init": {
+              "type": "ArrowFunctionExpression",
+              "start": 312,
+              "end": 393,
+              "loc": {
+                "start": {
+                  "line": 8,
+                  "column": 19
+                },
+                "end": {
+                  "line": 11,
+                  "column": 1
+                }
+              },
+              "id": null,
+              "generator": false,
+              "expression": false,
+              "async": false,
+              "params": [
+                {
+                  "type": "Identifier",
+                  "start": 313,
+                  "end": 316,
+                  "loc": {
+                    "start": {
+                      "line": 8,
+                      "column": 20
+                    },
+                    "end": {
+                      "line": 8,
+                      "column": 23
+                    },
+                    "identifierName": "app"
+                  },
+                  "name": "app"
+                }
+              ],
+              "body": {
+                "type": "BlockStatement",
+                "start": 321,
+                "end": 393,
+                "loc": {
+                  "start": {
+                    "line": 8,
+                    "column": 28
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 1
+                  }
+                },
+                "body": [
+                  {
+                    "type": "VariableDeclaration",
+                    "start": 325,
+                    "end": 367,
+                    "loc": {
+                      "start": {
+                        "line": 9,
+                        "column": 2
+                      },
+                      "end": {
+                        "line": 9,
+                        "column": 44
+                      }
+                    },
+                    "declarations": [
+                      {
+                        "type": "VariableDeclarator",
+                        "start": 331,
+                        "end": 366,
+                        "loc": {
+                          "start": {
+                            "line": 9,
+                            "column": 8
+                          },
+                          "end": {
+                            "line": 9,
+                            "column": 43
+                          }
+                        },
+                        "id": {
+                          "type": "Identifier",
+                          "start": 331,
+                          "end": 337,
+                          "loc": {
+                            "start": {
+                              "line": 9,
+                              "column": 8
+                            },
+                            "end": {
+                              "line": 9,
+                              "column": 14
+                            },
+                            "identifierName": "plugin"
+                          },
+                          "name": "plugin"
+                        },
+                        "init": {
+                          "type": "NewExpression",
+                          "start": 340,
+                          "end": 366,
+                          "loc": {
+                            "start": {
+                              "line": 9,
+                              "column": 17
+                            },
+                            "end": {
+                              "line": 9,
+                              "column": 43
+                            }
+                          },
+                          "callee": {
+                            "type": "Identifier",
+                            "start": 344,
+                            "end": 364,
+                            "loc": {
+                              "start": {
+                                "line": 9,
+                                "column": 21
+                              },
+                              "end": {
+                                "line": 9,
+                                "column": 41
+                              },
+                              "identifierName": "ProjextAureliaPlugin"
+                            },
+                            "name": "ProjextAureliaPlugin"
+                          },
+                          "arguments": []
+                        }
+                      }
+                    ],
+                    "kind": "const"
+                  },
+                  {
+                    "type": "ExpressionStatement",
+                    "start": 370,
+                    "end": 391,
+                    "loc": {
+                      "start": {
+                        "line": 10,
+                        "column": 2
+                      },
+                      "end": {
+                        "line": 10,
+                        "column": 23
+                      }
+                    },
+                    "expression": {
+                      "type": "CallExpression",
+                      "start": 370,
+                      "end": 390,
+                      "loc": {
+                        "start": {
+                          "line": 10,
+                          "column": 2
+                        },
+                        "end": {
+                          "line": 10,
+                          "column": 22
+                        }
+                      },
+                      "callee": {
+                        "type": "MemberExpression",
+                        "start": 370,
+                        "end": 385,
+                        "loc": {
+                          "start": {
+                            "line": 10,
+                            "column": 2
+                          },
+                          "end": {
+                            "line": 10,
+                            "column": 17
+                          }
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "start": 370,
+                          "end": 376,
+                          "loc": {
+                            "start": {
+                              "line": 10,
+                              "column": 2
+                            },
+                            "end": {
+                              "line": 10,
+                              "column": 8
+                            },
+                            "identifierName": "plugin"
+                          },
+                          "name": "plugin"
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "start": 377,
+                          "end": 385,
+                          "loc": {
+                            "start": {
+                              "line": 10,
+                              "column": 9
+                            },
+                            "end": {
+                              "line": 10,
+                              "column": 17
+                            },
+                            "identifierName": "register"
+                          },
+                          "name": "register"
+                        },
+                        "computed": false
+                      },
+                      "arguments": [
+                        {
+                          "type": "Identifier",
+                          "start": 386,
+                          "end": 389,
+                          "loc": {
+                            "start": {
+                              "line": 10,
+                              "column": 18
+                            },
+                            "end": {
+                              "line": 10,
+                              "column": 21
+                            },
+                            "identifierName": "app"
+                          },
+                          "name": "app"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "directives": []
+              }
+            },
+            "leadingComments": null
+          }
+        ],
+        "kind": "const",
+        "leadingComments": [],
+        "name": "_",
+        "trailingComments": []
+      },
+      {
+        "type": "Identifier",
+        "start": 396,
+        "end": 422,
+        "loc": {
+          "start": {
+            "line": 13,
+            "column": 0
+          },
+          "end": {
+            "line": 13,
+            "column": 26
+          }
+        },
+        "declaration": {
+          "type": "Identifier",
+          "start": 411,
+          "end": 421,
+          "loc": {
+            "start": {
+              "line": 13,
+              "column": 15
+            },
+            "end": {
+              "line": 13,
+              "column": 25
+            },
+            "identifierName": "loadPlugin"
+          },
+          "name": "loadPlugin"
+        },
+        "name": "_",
+        "leadingComments": [],
+        "trailingComments": []
+      },
+      {
+        "type": "ExportDefaultDeclaration",
+        "start": 396,
+        "end": 422,
+        "loc": {
+          "start": {
+            "line": 13,
+            "column": 0
+          },
+          "end": {
+            "line": 13,
+            "column": 26
+          }
+        },
+        "declaration": {
+          "type": "VariableDeclaration",
+          "start": 293,
+          "end": 394,
+          "loc": {
+            "start": {
+              "line": 8,
+              "column": 0
+            },
+            "end": {
+              "line": 11,
+              "column": 2
+            }
+          },
+          "declarations": [
+            {
+              "type": "VariableDeclarator",
+              "start": 299,
+              "end": 393,
+              "loc": {
+                "start": {
+                  "line": 8,
+                  "column": 6
+                },
+                "end": {
+                  "line": 11,
+                  "column": 1
+                }
+              },
+              "id": {
+                "type": "Identifier",
+                "start": 299,
+                "end": 309,
+                "loc": {
+                  "start": {
+                    "line": 8,
+                    "column": 6
+                  },
+                  "end": {
+                    "line": 8,
+                    "column": 16
+                  },
+                  "identifierName": "loadPlugin"
+                },
+                "name": "loadPlugin",
+                "leadingComments": null
+              },
+              "init": {
+                "type": "ArrowFunctionExpression",
+                "start": 312,
+                "end": 393,
+                "loc": {
+                  "start": {
+                    "line": 8,
+                    "column": 19
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 1
+                  }
+                },
+                "id": {
+                  "type": "Identifier",
+                  "start": 299,
+                  "end": 309,
+                  "loc": {
+                    "start": {
+                      "line": 8,
+                      "column": 6
+                    },
+                    "end": {
+                      "line": 8,
+                      "column": 16
+                    },
+                    "identifierName": "loadPlugin"
+                  },
+                  "name": "loadPlugin",
+                  "leadingComments": null
+                },
+                "generator": false,
+                "expression": false,
+                "async": false,
+                "params": [
+                  {
+                    "type": "Identifier",
+                    "start": 313,
+                    "end": 316,
+                    "loc": {
+                      "start": {
+                        "line": 8,
+                        "column": 20
+                      },
+                      "end": {
+                        "line": 8,
+                        "column": 23
+                      },
+                      "identifierName": "app"
+                    },
+                    "name": "app"
+                  }
+                ],
+                "body": {
+                  "type": "BlockStatement",
+                  "start": 321,
+                  "end": 393,
+                  "loc": {
+                    "start": {
+                      "line": 8,
+                      "column": 28
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 1
+                    }
+                  },
+                  "body": [
+                    {
+                      "type": "VariableDeclaration",
+                      "start": 325,
+                      "end": 367,
+                      "loc": {
+                        "start": {
+                          "line": 9,
+                          "column": 2
+                        },
+                        "end": {
+                          "line": 9,
+                          "column": 44
+                        }
+                      },
+                      "declarations": [
+                        {
+                          "type": "VariableDeclarator",
+                          "start": 331,
+                          "end": 366,
+                          "loc": {
+                            "start": {
+                              "line": 9,
+                              "column": 8
+                            },
+                            "end": {
+                              "line": 9,
+                              "column": 43
+                            }
+                          },
+                          "id": {
+                            "type": "Identifier",
+                            "start": 331,
+                            "end": 337,
+                            "loc": {
+                              "start": {
+                                "line": 9,
+                                "column": 8
+                              },
+                              "end": {
+                                "line": 9,
+                                "column": 14
+                              },
+                              "identifierName": "plugin"
+                            },
+                            "name": "plugin"
+                          },
+                          "init": {
+                            "type": "NewExpression",
+                            "start": 340,
+                            "end": 366,
+                            "loc": {
+                              "start": {
+                                "line": 9,
+                                "column": 17
+                              },
+                              "end": {
+                                "line": 9,
+                                "column": 43
+                              }
+                            },
+                            "callee": {
+                              "type": "Identifier",
+                              "start": 344,
+                              "end": 364,
+                              "loc": {
+                                "start": {
+                                  "line": 9,
+                                  "column": 21
+                                },
+                                "end": {
+                                  "line": 9,
+                                  "column": 41
+                                },
+                                "identifierName": "ProjextAureliaPlugin"
+                              },
+                              "name": "ProjextAureliaPlugin"
+                            },
+                            "arguments": []
+                          }
+                        }
+                      ],
+                      "kind": "const"
+                    },
+                    {
+                      "type": "ExpressionStatement",
+                      "start": 370,
+                      "end": 391,
+                      "loc": {
+                        "start": {
+                          "line": 10,
+                          "column": 2
+                        },
+                        "end": {
+                          "line": 10,
+                          "column": 23
+                        }
+                      },
+                      "expression": {
+                        "type": "CallExpression",
+                        "start": 370,
+                        "end": 390,
+                        "loc": {
+                          "start": {
+                            "line": 10,
+                            "column": 2
+                          },
+                          "end": {
+                            "line": 10,
+                            "column": 22
+                          }
+                        },
+                        "callee": {
+                          "type": "MemberExpression",
+                          "start": 370,
+                          "end": 385,
+                          "loc": {
+                            "start": {
+                              "line": 10,
+                              "column": 2
+                            },
+                            "end": {
+                              "line": 10,
+                              "column": 17
+                            }
+                          },
+                          "object": {
+                            "type": "Identifier",
+                            "start": 370,
+                            "end": 376,
+                            "loc": {
+                              "start": {
+                                "line": 10,
+                                "column": 2
+                              },
+                              "end": {
+                                "line": 10,
+                                "column": 8
+                              },
+                              "identifierName": "plugin"
+                            },
+                            "name": "plugin"
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "start": 377,
+                            "end": 385,
+                            "loc": {
+                              "start": {
+                                "line": 10,
+                                "column": 9
+                              },
+                              "end": {
+                                "line": 10,
+                                "column": 17
+                              },
+                              "identifierName": "register"
+                            },
+                            "name": "register"
+                          },
+                          "computed": false
+                        },
+                        "arguments": [
+                          {
+                            "type": "Identifier",
+                            "start": 386,
+                            "end": 389,
+                            "loc": {
+                              "start": {
+                                "line": 10,
+                                "column": 18
+                              },
+                              "end": {
+                                "line": 10,
+                                "column": 21
+                              },
+                              "identifierName": "app"
+                            },
+                            "name": "app"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "directives": []
+                }
+              },
+              "leadingComments": null
+            }
+          ],
+          "kind": "const",
+          "leadingComments": [
+            {
+              "type": "CommentBlock",
+              "value": "*\n * This is the method called by projext when loading the plugin. It takes care of creating\n * a new instance of the plugin class and use it to register for the required events.\n * @param {Projext} app The projext main container.\n * @ignore\n ",
+              "start": 45,
+              "end": 292,
+              "loc": {
+                "start": {
+                  "line": 2,
+                  "column": 0
+                },
+                "end": {
+                  "line": 7,
+                  "column": 3
+                }
+              }
+            }
+          ],
+          "trailingComments": []
+        }
+      }
+    ],
+    "directives": []
+  },
+  "comments": [
+    {
+      "type": "CommentBlock",
+      "value": "*\n * This is the method called by projext when loading the plugin. It takes care of creating\n * a new instance of the plugin class and use it to register for the required events.\n * @param {Projext} app The projext main container.\n * @ignore\n ",
+      "start": 45,
+      "end": 292,
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 0
+        },
+        "end": {
+          "line": 7,
+          "column": 3
+        }
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "type": {
+        "label": "import",
+        "keyword": "import",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "import",
+      "start": 0,
+      "end": 6,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 6
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "ProjextAureliaPlugin",
+      "start": 7,
+      "end": 27,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 7
+        },
+        "end": {
+          "line": 1,
+          "column": 27
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "from",
+      "start": 28,
+      "end": 32,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 28
+        },
+        "end": {
+          "line": 1,
+          "column": 32
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "./plugin",
+      "start": 33,
+      "end": 43,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 33
+        },
+        "end": {
+          "line": 1,
+          "column": 43
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ";",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 43,
+      "end": 44,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 43
+        },
+        "end": {
+          "line": 1,
+          "column": 44
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * This is the method called by projext when loading the plugin. It takes care of creating\n * a new instance of the plugin class and use it to register for the required events.\n * @param {Projext} app The projext main container.\n * @ignore\n ",
+      "start": 45,
+      "end": 292,
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 0
+        },
+        "end": {
+          "line": 7,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "const",
+        "keyword": "const",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "const",
+      "start": 293,
+      "end": 298,
+      "loc": {
+        "start": {
+          "line": 8,
+          "column": 0
+        },
+        "end": {
+          "line": 8,
+          "column": 5
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "loadPlugin",
+      "start": 299,
+      "end": 309,
+      "loc": {
+        "start": {
+          "line": 8,
+          "column": 6
+        },
+        "end": {
+          "line": 8,
+          "column": 16
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "=",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": true,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "=",
+      "start": 310,
+      "end": 311,
+      "loc": {
+        "start": {
+          "line": 8,
+          "column": 17
+        },
+        "end": {
+          "line": 8,
+          "column": 18
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "(",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 312,
+      "end": 313,
+      "loc": {
+        "start": {
+          "line": 8,
+          "column": 19
+        },
+        "end": {
+          "line": 8,
+          "column": 20
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "app",
+      "start": 313,
+      "end": 316,
+      "loc": {
+        "start": {
+          "line": 8,
+          "column": 20
+        },
+        "end": {
+          "line": 8,
+          "column": 23
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ")",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 316,
+      "end": 317,
+      "loc": {
+        "start": {
+          "line": 8,
+          "column": 23
+        },
+        "end": {
+          "line": 8,
+          "column": 24
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "=>",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 318,
+      "end": 320,
+      "loc": {
+        "start": {
+          "line": 8,
+          "column": 25
+        },
+        "end": {
+          "line": 8,
+          "column": 27
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "{",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 321,
+      "end": 322,
+      "loc": {
+        "start": {
+          "line": 8,
+          "column": 28
+        },
+        "end": {
+          "line": 8,
+          "column": 29
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "const",
+        "keyword": "const",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "const",
+      "start": 325,
+      "end": 330,
+      "loc": {
+        "start": {
+          "line": 9,
+          "column": 2
+        },
+        "end": {
+          "line": 9,
+          "column": 7
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "plugin",
+      "start": 331,
+      "end": 337,
+      "loc": {
+        "start": {
+          "line": 9,
+          "column": 8
+        },
+        "end": {
+          "line": 9,
+          "column": 14
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "=",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": true,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "=",
+      "start": 338,
+      "end": 339,
+      "loc": {
+        "start": {
+          "line": 9,
+          "column": 15
+        },
+        "end": {
+          "line": 9,
+          "column": 16
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "new",
+        "keyword": "new",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "new",
+      "start": 340,
+      "end": 343,
+      "loc": {
+        "start": {
+          "line": 9,
+          "column": 17
+        },
+        "end": {
+          "line": 9,
+          "column": 20
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "ProjextAureliaPlugin",
+      "start": 344,
+      "end": 364,
+      "loc": {
+        "start": {
+          "line": 9,
+          "column": 21
+        },
+        "end": {
+          "line": 9,
+          "column": 41
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "(",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 364,
+      "end": 365,
+      "loc": {
+        "start": {
+          "line": 9,
+          "column": 41
+        },
+        "end": {
+          "line": 9,
+          "column": 42
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ")",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 365,
+      "end": 366,
+      "loc": {
+        "start": {
+          "line": 9,
+          "column": 42
+        },
+        "end": {
+          "line": 9,
+          "column": 43
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ";",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 366,
+      "end": 367,
+      "loc": {
+        "start": {
+          "line": 9,
+          "column": 43
+        },
+        "end": {
+          "line": 9,
+          "column": 44
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "plugin",
+      "start": 370,
+      "end": 376,
+      "loc": {
+        "start": {
+          "line": 10,
+          "column": 2
+        },
+        "end": {
+          "line": 10,
+          "column": 8
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ".",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 376,
+      "end": 377,
+      "loc": {
+        "start": {
+          "line": 10,
+          "column": 8
+        },
+        "end": {
+          "line": 10,
+          "column": 9
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "register",
+      "start": 377,
+      "end": 385,
+      "loc": {
+        "start": {
+          "line": 10,
+          "column": 9
+        },
+        "end": {
+          "line": 10,
+          "column": 17
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "(",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 385,
+      "end": 386,
+      "loc": {
+        "start": {
+          "line": 10,
+          "column": 17
+        },
+        "end": {
+          "line": 10,
+          "column": 18
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "app",
+      "start": 386,
+      "end": 389,
+      "loc": {
+        "start": {
+          "line": 10,
+          "column": 18
+        },
+        "end": {
+          "line": 10,
+          "column": 21
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ")",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 389,
+      "end": 390,
+      "loc": {
+        "start": {
+          "line": 10,
+          "column": 21
+        },
+        "end": {
+          "line": 10,
+          "column": 22
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ";",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 390,
+      "end": 391,
+      "loc": {
+        "start": {
+          "line": 10,
+          "column": 22
+        },
+        "end": {
+          "line": 10,
+          "column": 23
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "}",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 392,
+      "end": 393,
+      "loc": {
+        "start": {
+          "line": 11,
+          "column": 0
+        },
+        "end": {
+          "line": 11,
+          "column": 1
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ";",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 393,
+      "end": 394,
+      "loc": {
+        "start": {
+          "line": 11,
+          "column": 1
+        },
+        "end": {
+          "line": 11,
+          "column": 2
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "export",
+        "keyword": "export",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "export",
+      "start": 396,
+      "end": 402,
+      "loc": {
+        "start": {
+          "line": 13,
+          "column": 0
+        },
+        "end": {
+          "line": 13,
+          "column": 6
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "default",
+        "keyword": "default",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "default",
+      "start": 403,
+      "end": 410,
+      "loc": {
+        "start": {
+          "line": 13,
+          "column": 7
+        },
+        "end": {
+          "line": 13,
+          "column": 14
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "loadPlugin",
+      "start": 411,
+      "end": 421,
+      "loc": {
+        "start": {
+          "line": 13,
+          "column": 15
+        },
+        "end": {
+          "line": 13,
+          "column": 25
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ";",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 421,
+      "end": 422,
+      "loc": {
+        "start": {
+          "line": 13,
+          "column": 25
+        },
+        "end": {
+          "line": 13,
+          "column": 26
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "eof",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 423,
+      "end": 423,
+      "loc": {
+        "start": {
+          "line": 14,
+          "column": 0
+        },
+        "end": {
+          "line": 14,
+          "column": 0
+        }
+      }
+    }
+  ]
+}

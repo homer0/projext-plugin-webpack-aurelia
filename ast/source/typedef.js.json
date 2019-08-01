@@ -1,0 +1,258 @@
+{
+  "type": "File",
+  "start": 0,
+  "end": 537,
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 23,
+      "column": 0
+    }
+  },
+  "program": {
+    "type": "Program",
+    "start": 0,
+    "end": 537,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 23,
+        "column": 0
+      }
+    },
+    "sourceType": "module",
+    "body": [],
+    "directives": [],
+    "leadingComments": null,
+    "innerComments": [
+      {
+        "type": "CommentBlock",
+        "value": "*\n * @external {Projext}\n * https://homer0.github.io/projext/class/src/app/index.js~Projext.html\n ",
+        "start": 0,
+        "end": 102,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 3
+          }
+        }
+      },
+      {
+        "type": "CommentBlock",
+        "value": "*\n * @external {Target}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-Target\n * @ignore\n ",
+        "start": 104,
+        "end": 221,
+        "loc": {
+          "start": {
+            "line": 6,
+            "column": 0
+          },
+          "end": {
+            "line": 10,
+            "column": 3
+          }
+        }
+      },
+      {
+        "type": "CommentBlock",
+        "value": "*\n * @external {BabelHelper}\n * https://homer0.github.io/projext/class/src/services/common/babelHelper.js~BabelHelper.html\n * @ignore\n ",
+        "start": 223,
+        "end": 362,
+        "loc": {
+          "start": {
+            "line": 12,
+            "column": 0
+          },
+          "end": {
+            "line": 16,
+            "column": 3
+          }
+        }
+      },
+      {
+        "type": "CommentBlock",
+        "value": "*\n * @external {WebpackConfigurationParams}\n * https://homer0.github.io/projext-plugin-webpack/typedef/index.html#static-typedef-WebpackConfigurationParams\n * @ignore\n ",
+        "start": 364,
+        "end": 536,
+        "loc": {
+          "start": {
+            "line": 18,
+            "column": 0
+          },
+          "end": {
+            "line": 22,
+            "column": 3
+          }
+        }
+      }
+    ]
+  },
+  "comments": [
+    {
+      "type": "CommentBlock",
+      "value": "*\n * @external {Projext}\n * https://homer0.github.io/projext/class/src/app/index.js~Projext.html\n ",
+      "start": 0,
+      "end": 102,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 4,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * @external {Target}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-Target\n * @ignore\n ",
+      "start": 104,
+      "end": 221,
+      "loc": {
+        "start": {
+          "line": 6,
+          "column": 0
+        },
+        "end": {
+          "line": 10,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * @external {BabelHelper}\n * https://homer0.github.io/projext/class/src/services/common/babelHelper.js~BabelHelper.html\n * @ignore\n ",
+      "start": 223,
+      "end": 362,
+      "loc": {
+        "start": {
+          "line": 12,
+          "column": 0
+        },
+        "end": {
+          "line": 16,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * @external {WebpackConfigurationParams}\n * https://homer0.github.io/projext-plugin-webpack/typedef/index.html#static-typedef-WebpackConfigurationParams\n * @ignore\n ",
+      "start": 364,
+      "end": 536,
+      "loc": {
+        "start": {
+          "line": 18,
+          "column": 0
+        },
+        "end": {
+          "line": 22,
+          "column": 3
+        }
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "type": "CommentBlock",
+      "value": "*\n * @external {Projext}\n * https://homer0.github.io/projext/class/src/app/index.js~Projext.html\n ",
+      "start": 0,
+      "end": 102,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 4,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * @external {Target}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-Target\n * @ignore\n ",
+      "start": 104,
+      "end": 221,
+      "loc": {
+        "start": {
+          "line": 6,
+          "column": 0
+        },
+        "end": {
+          "line": 10,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * @external {BabelHelper}\n * https://homer0.github.io/projext/class/src/services/common/babelHelper.js~BabelHelper.html\n * @ignore\n ",
+      "start": 223,
+      "end": 362,
+      "loc": {
+        "start": {
+          "line": 12,
+          "column": 0
+        },
+        "end": {
+          "line": 16,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * @external {WebpackConfigurationParams}\n * https://homer0.github.io/projext-plugin-webpack/typedef/index.html#static-typedef-WebpackConfigurationParams\n * @ignore\n ",
+      "start": 364,
+      "end": 536,
+      "loc": {
+        "start": {
+          "line": 18,
+          "column": 0
+        },
+        "end": {
+          "line": 22,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "eof",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 537,
+      "end": 537,
+      "loc": {
+        "start": {
+          "line": 23,
+          "column": 0
+        },
+        "end": {
+          "line": 23,
+          "column": 0
+        }
+      }
+    }
+  ]
+}
