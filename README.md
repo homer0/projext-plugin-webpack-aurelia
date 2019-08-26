@@ -42,6 +42,23 @@ export const configure = (aurelia) => {
 
 Done! Just configure your Aurelia plugins/components and run your target!
 
+### Default HTML
+
+If you didn't create an HTML file for your Aurelia app, projext will automatically create one for you, and then this plugin will take care of updating it so you can run your app right away.
+
+There are some options you can change in your target settings in order to customize the way the HTML generated; you just need to add a `frameworkOptions` property on your target:
+```js
+{
+  frameworkOptions: {
+    title: null,
+    useBody: true,
+  }
+}
+```
+
+- `title`: A custom title for the HTML file. By default, projext, uses the name of the target.
+- `useBody`: Whether to add the `aurelia-app` attribute and the directives on the `<body />` or on a `<div />` inside it.
+
 ## Development
 
 ### Yarn/NPM Tasks
