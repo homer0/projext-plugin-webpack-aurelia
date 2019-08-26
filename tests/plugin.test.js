@@ -35,6 +35,7 @@ describe('plugin:projextAurelia/main', () => {
     };
     let sut = null;
     const expectedEvents = [
+      'target-default-html-settings',
       'webpack-html-rules-configuration-for-browser',
       'webpack-rules-configuration-for-browser',
       'webpack-base-configuration-for-browser',
@@ -54,6 +55,182 @@ describe('plugin:projextAurelia/main', () => {
     expect(events.on).toHaveBeenCalledTimes(expectedEvents.length);
     expectedEvents.forEach((eventName) => {
       expect(events.on).toHaveBeenCalledWith(eventName, expect.any(Function));
+    });
+  });
+
+  it('shouldn\'t update the HTML settings is the target doesn\'t use Aurelia', () => {
+    // Given
+    const events = {
+      on: jest.fn(),
+    };
+    const babelHelper = 'babelHelper';
+    const services = {
+      events,
+      babelHelper,
+    };
+    const app = {
+      get: jest.fn((service) => services[service]),
+    };
+    const currentSettings = {
+      title: 'my-title',
+      bodyAttributes: '',
+      bodyContents: '<div id="app"></div>',
+    };
+    const target = {
+      framework: 'react',
+      is: {
+        browser: true,
+      },
+    };
+    const buildType = 'development';
+    let sut = null;
+    let reducer = null;
+    let result = null;
+    // When
+    sut = new ProjextAureliaPlugin();
+    sut.register(app);
+    [[, reducer]] = events.on.mock.calls;
+    result = reducer(currentSettings, target, buildType);
+    // Then
+    expect(result).toBe(currentSettings);
+  });
+
+  it('should update the settings for a browser target default HTML', () => {
+    // Given
+    const events = {
+      on: jest.fn(),
+    };
+    const babelHelper = 'babelHelper';
+    const services = {
+      events,
+      babelHelper,
+    };
+    const app = {
+      get: jest.fn((service) => services[service]),
+    };
+    const currentSettings = {
+      title: 'my-title',
+      bodyAttributes: '',
+      bodyContents: '<div id="app"></div>',
+    };
+    const buildType = 'development';
+    const entry = 'some-file';
+    const target = {
+      framework: 'aurelia',
+      entry: {
+        [buildType]: `${entry}.js`,
+      },
+      is: {
+        browser: true,
+      },
+    };
+    let sut = null;
+    let reducer = null;
+    let result = null;
+    // When
+    sut = new ProjextAureliaPlugin();
+    sut.register(app);
+    [[, reducer]] = events.on.mock.calls;
+    result = reducer(currentSettings, target, buildType);
+    // Then
+    expect(result).toEqual({
+      title: currentSettings.title,
+      bodyAttributes: `aurelia-app="${entry}"`,
+      bodyContents: currentSettings.bodyContents,
+    });
+  });
+
+  it('should update the settings for a browser target default HTML with custom options', () => {
+    // Given
+    const events = {
+      on: jest.fn(),
+    };
+    const babelHelper = 'babelHelper';
+    const services = {
+      events,
+      babelHelper,
+    };
+    const app = {
+      get: jest.fn((service) => services[service]),
+    };
+    const currentSettings = {
+      title: 'my-title',
+      bodyAttributes: '',
+      bodyContents: '<div id="app"></div>',
+    };
+    const buildType = 'development';
+    const entry = 'some-file';
+    const target = {
+      framework: 'aurelia',
+      entry: {
+        [buildType]: `${entry}.js`,
+      },
+      is: {
+        browser: true,
+      },
+      frameworkOptions: {
+        title: 'my-awesome-title',
+        useBody: false,
+      },
+    };
+    let sut = null;
+    let reducer = null;
+    let result = null;
+    // When
+    sut = new ProjextAureliaPlugin();
+    sut.register(app);
+    [[, reducer]] = events.on.mock.calls;
+    result = reducer(currentSettings, target, buildType);
+    // Then
+    expect(result).toEqual({
+      title: target.frameworkOptions.title,
+      bodyAttributes: '',
+      bodyContents: `<div id="app" aurelia-app="${entry}"></div>`,
+    });
+  });
+
+  it('should update the settings even if it receives an unknown build type', () => {
+    // Given
+    const events = {
+      on: jest.fn(),
+    };
+    const babelHelper = 'babelHelper';
+    const services = {
+      events,
+      babelHelper,
+    };
+    const app = {
+      get: jest.fn((service) => services[service]),
+    };
+    const currentSettings = {
+      title: 'my-title',
+      bodyAttributes: '',
+      bodyContents: '<div id="app"></div>',
+    };
+    const buildType = 'magic';
+    const entry = 'some-file';
+    const target = {
+      framework: 'aurelia',
+      entry: {
+        production: `${entry}.js`,
+      },
+      is: {
+        browser: true,
+      },
+    };
+    let sut = null;
+    let reducer = null;
+    let result = null;
+    // When
+    sut = new ProjextAureliaPlugin();
+    sut.register(app);
+    [[, reducer]] = events.on.mock.calls;
+    result = reducer(currentSettings, target, buildType);
+    // Then
+    expect(result).toEqual({
+      title: currentSettings.title,
+      bodyAttributes: `aurelia-app="${entry}"`,
+      bodyContents: currentSettings.bodyContents,
     });
   });
 
@@ -81,7 +258,7 @@ describe('plugin:projextAurelia/main', () => {
     // When
     sut = new ProjextAureliaPlugin();
     sut.register(app);
-    [[, reducer]] = events.on.mock.calls;
+    [, [, reducer]] = events.on.mock.calls;
     result = reducer(htmlRules, params);
     // Then
     expect(result).toBe(htmlRules);
@@ -114,7 +291,7 @@ describe('plugin:projextAurelia/main', () => {
     // When
     sut = new ProjextAureliaPlugin();
     sut.register(app);
-    [[, reducer]] = events.on.mock.calls;
+    [, [, reducer]] = events.on.mock.calls;
     result = reducer(htmlRules, params);
     [{ use: [, customHTMLLoader] }] = result;
     // Then
@@ -154,7 +331,7 @@ describe('plugin:projextAurelia/main', () => {
     // When
     sut = new ProjextAureliaPlugin();
     sut.register(app);
-    [, [, reducer]] = events.on.mock.calls;
+    [,, [, reducer]] = events.on.mock.calls;
     result = reducer(configuration, params);
     [rule] = result.rules;
     // Then
@@ -203,7 +380,7 @@ describe('plugin:projextAurelia/main', () => {
     // When
     sut = new ProjextAureliaPlugin();
     sut.register(app);
-    [,, [, reducer]] = events.on.mock.calls;
+    [,,, [, reducer]] = events.on.mock.calls;
     result = reducer(configuration, params);
     // Then
     expect(result).toEqual({
@@ -264,7 +441,7 @@ describe('plugin:projextAurelia/main', () => {
     // When
     sut = new ProjextAureliaPlugin();
     sut.register(app);
-    [,,, [, reducer]] = events.on.mock.calls;
+    [,,,, [, reducer]] = events.on.mock.calls;
     result = reducer(configuration, params);
     // Then
     expect(result).toEqual({
@@ -339,7 +516,7 @@ describe('plugin:projextAurelia/main', () => {
     // When
     sut = new ProjextAureliaPlugin();
     sut.register(app);
-    [,,, [, reducer]] = events.on.mock.calls;
+    [,,,, [, reducer]] = events.on.mock.calls;
     result = reducer(configuration, params);
     // Then
     expect(result).toEqual({
@@ -417,7 +594,7 @@ describe('plugin:projextAurelia/main', () => {
     // When
     sut = new ProjextAureliaPlugin();
     sut.register(app);
-    [,,, [, reducer]] = events.on.mock.calls;
+    [,,,, [, reducer]] = events.on.mock.calls;
     result = reducer(configuration, params);
     // Then
     expect(result).toEqual({
@@ -482,7 +659,7 @@ describe('plugin:projextAurelia/main', () => {
     // When
     sut = new ProjextAureliaPlugin();
     sut.register(app);
-    [,,,, [, reducer]] = events.on.mock.calls;
+    [,,,,, [, reducer]] = events.on.mock.calls;
     result = reducer(configuration, target);
     // Then
     expect(result).toEqual({
@@ -528,7 +705,7 @@ describe('plugin:projextAurelia/main', () => {
     // When
     sut = new ProjextAureliaPlugin();
     sut.register(app);
-    [,,,,, [, reducer]] = events.on.mock.calls;
+    [,,,,,, [, reducer]] = events.on.mock.calls;
     result = reducer(initialExternals, params);
     // Then
     expect(result).toEqual(initialExternals);
@@ -560,7 +737,7 @@ describe('plugin:projextAurelia/main', () => {
     // When
     sut = new ProjextAureliaPlugin();
     sut.register(app);
-    [,,,,, [, reducer]] = events.on.mock.calls;
+    [,,,,,, [, reducer]] = events.on.mock.calls;
     result = reducer(initialExternals, { target });
     // Then
     expect(result).toEqual(Object.assign({}, initialExternals, {

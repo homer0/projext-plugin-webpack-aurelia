@@ -1,4 +1,3 @@
-/*eslint-disable */
 const path = require('path');
 const { AureliaPlugin } = require('aurelia-webpack-plugin');
 /**
@@ -18,6 +17,7 @@ class ProjextAureliaPlugin {
      * @ignore
      */
     this._events = {
+      htmlSettings: 'target-default-html-settings',
       htmlRules: 'webpack-html-rules-configuration-for-browser',
       allRules: 'webpack-rules-configuration-for-browser',
       baseConfiguration: 'webpack-base-configuration-for-browser',
@@ -80,6 +80,22 @@ class ProjextAureliaPlugin {
      * @ignore
      */
     this._aureliaEntry = 'aurelia-bootstrapper';
+    /**
+     * The default values for the options a target can use to customize the default HTML projext
+     * generates.
+     * @type {Object}
+     * @property {?string} title         A custom value for the `<title />` tag. If the target
+     *                                   doesn't define it, the plugin will use the one projext
+     *                                   sets by default (The name of the target).
+     * @property {boolean} useBody       Whether or not the `body` should be used as the app tag
+     *                                   (`aurelia-app`).
+     * @access protected
+     * @ignore
+     */
+    this._frameworkOptions = {
+      title: null,
+      useBody: true,
+    };
   }
   /**
    * This is the method called when the plugin is loaded by projext. It setups all the listeners
@@ -97,6 +113,10 @@ class ProjextAureliaPlugin {
     const events = app.get('events');
     // Get the `babelHelper` to send to the method that adds support validates the plugins.
     const babelHelper = app.get('babelHelper');
+    // Add the listener for the default HTML settings.
+    events.on(this._events.htmlSettings, (settings, target, buildType) => (
+      this._updateHTMLSettings(settings, target, buildType)
+    ));
     // Add the listener that will push the _"extract clean loader"_.
     events.on(this._events.htmlRules, (rules, params) => this._filterEvent(
       this._updateHTMLRules,
@@ -134,6 +154,49 @@ class ProjextAureliaPlugin {
       externals,
       params
     ));
+  }
+  /**
+   * Reads the settings projext usess to build a browser target default HTML file and updates them
+   * based on the framework options defined by the target in order to run an Aurelia app.
+   * @param {TargetDefaultHTMLSettings} currentSettings The settings projext uses to build a target
+   *                                                    default HTML file.
+   * @param {Target}                    target          The target information.
+   * @param {string}                    buildType       The type of build being generated:
+   *                                                    'development' or 'production'.
+   * @return {TargetDefaultHTMLSettings}
+   * @access protected
+   * @ignore
+   */
+  _updateHTMLSettings(currentSettings, target, buildType) {
+    let updatedSettings;
+    if (target.is.browser && target.framework === this._frameworkProperty) {
+      updatedSettings = Object.assign({}, currentSettings);
+      const useBuildType = ['production', 'development'].includes(buildType) ?
+        buildType :
+        'production';
+      const options = Object.assign(
+        {
+          appName: path.parse(target.entry[useBuildType]).name.split('.').shift(),
+        },
+        this._frameworkOptions,
+        (target.frameworkOptions || {})
+      );
+
+      if (options.title) {
+        updatedSettings.title = options.title;
+      }
+
+      const attributes = `aurelia-app="${options.appName}"`;
+      if (options.useBody) {
+        updatedSettings.bodyAttributes = attributes;
+      } else {
+        updatedSettings.bodyContents = `<div id="app" ${attributes}></div>`;
+      }
+    } else {
+      updatedSettings = currentSettings;
+    }
+
+    return updatedSettings;
   }
   /**
    * Updates a target HTML rules and adds:
