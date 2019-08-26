@@ -136,7 +136,7 @@ describe('plugin:projextAurelia/main', () => {
     expect(result).toEqual({
       title: currentSettings.title,
       bodyAttributes: `aurelia-app="${entry}"`,
-      bodyContents: currentSettings.bodyContents,
+      bodyContents: '',
     });
   });
 
@@ -230,7 +230,7 @@ describe('plugin:projextAurelia/main', () => {
     expect(result).toEqual({
       title: currentSettings.title,
       bodyAttributes: `aurelia-app="${entry}"`,
-      bodyContents: currentSettings.bodyContents,
+      bodyContents: '',
     });
   });
 

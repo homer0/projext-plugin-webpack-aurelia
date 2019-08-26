@@ -189,6 +189,7 @@ class ProjextAureliaPlugin {
       const attributes = `aurelia-app="${options.appName}"`;
       if (options.useBody) {
         updatedSettings.bodyAttributes = attributes;
+        updatedSettings.bodyContents = '';
       } else {
         updatedSettings.bodyContents = `<div id="app" ${attributes}></div>`;
       }
