@@ -37,8 +37,7 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/plugin.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/*eslint-disable */
-const path = require(&apos;path&apos;);
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const path = require(&apos;path&apos;);
 const { AureliaPlugin } = require(&apos;aurelia-webpack-plugin&apos;);
 /**
  * It updates a target webpack and Babel configuration in order to work with the Aurelia framework.
@@ -57,6 +56,7 @@ class ProjextAureliaPlugin {
      * @ignore
      */
     this._events = {
+      htmlSettings: &apos;target-default-html-settings&apos;,
       htmlRules: &apos;webpack-html-rules-configuration-for-browser&apos;,
       allRules: &apos;webpack-rules-configuration-for-browser&apos;,
       baseConfiguration: &apos;webpack-base-configuration-for-browser&apos;,
@@ -119,6 +119,22 @@ class ProjextAureliaPlugin {
      * @ignore
      */
     this._aureliaEntry = &apos;aurelia-bootstrapper&apos;;
+    /**
+     * The default values for the options a target can use to customize the default HTML projext
+     * generates.
+     * @type {Object}
+     * @property {?string} title         A custom value for the `&lt;title /&gt;` tag. If the target
+     *                                   doesn&apos;t define it, the plugin will use the one projext
+     *                                   sets by default (The name of the target).
+     * @property {boolean} useBody       Whether or not the `body` should be used as the app tag
+     *                                   (`aurelia-app`).
+     * @access protected
+     * @ignore
+     */
+    this._frameworkOptions = {
+      title: null,
+      useBody: true,
+    };
   }
   /**
    * This is the method called when the plugin is loaded by projext. It setups all the listeners
@@ -136,6 +152,10 @@ class ProjextAureliaPlugin {
     const events = app.get(&apos;events&apos;);
     // Get the `babelHelper` to send to the method that adds support validates the plugins.
     const babelHelper = app.get(&apos;babelHelper&apos;);
+    // Add the listener for the default HTML settings.
+    events.on(this._events.htmlSettings, (settings, target, buildType) =&gt; (
+      this._updateHTMLSettings(settings, target, buildType)
+    ));
     // Add the listener that will push the _&quot;extract clean loader&quot;_.
     events.on(this._events.htmlRules, (rules, params) =&gt; this._filterEvent(
       this._updateHTMLRules,
@@ -173,6 +193,50 @@ class ProjextAureliaPlugin {
       externals,
       params
     ));
+  }
+  /**
+   * Reads the settings projext usess to build a browser target default HTML file and updates them
+   * based on the framework options defined by the target in order to run an Aurelia app.
+   * @param {TargetDefaultHTMLSettings} currentSettings The settings projext uses to build a target
+   *                                                    default HTML file.
+   * @param {Target}                    target          The target information.
+   * @param {string}                    buildType       The type of build being generated:
+   *                                                    &apos;development&apos; or &apos;production&apos;.
+   * @return {TargetDefaultHTMLSettings}
+   * @access protected
+   * @ignore
+   */
+  _updateHTMLSettings(currentSettings, target, buildType) {
+    let updatedSettings;
+    if (target.is.browser &amp;&amp; target.framework === this._frameworkProperty) {
+      updatedSettings = Object.assign({}, currentSettings);
+      const useBuildType = [&apos;production&apos;, &apos;development&apos;].includes(buildType) ?
+        buildType :
+        &apos;production&apos;;
+      const options = Object.assign(
+        {
+          appName: path.parse(target.entry[useBuildType]).name.split(&apos;.&apos;).shift(),
+        },
+        this._frameworkOptions,
+        (target.frameworkOptions || {})
+      );
+
+      if (options.title) {
+        updatedSettings.title = options.title;
+      }
+
+      const attributes = `aurelia-app=&quot;${options.appName}&quot;`;
+      if (options.useBody) {
+        updatedSettings.bodyAttributes = attributes;
+        updatedSettings.bodyContents = &apos;&apos;;
+      } else {
+        updatedSettings.bodyContents = `&lt;div id=&quot;app&quot; ${attributes}&gt;&lt;/div&gt;`;
+      }
+    } else {
+      updatedSettings = currentSettings;
+    }
+
+    return updatedSettings;
   }
   /**
    * Updates a target HTML rules and adds:

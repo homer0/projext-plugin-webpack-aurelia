@@ -678,7 +678,7 @@
     "__docId__": 53,
     "kind": "file",
     "name": "src/plugin.js",
-    "content": "/*eslint-disable */\nconst path = require('path');\nconst { AureliaPlugin } = require('aurelia-webpack-plugin');\n/**\n * It updates a target webpack and Babel configuration in order to work with the Aurelia framework.\n */\nclass ProjextAureliaPlugin {\n  /**\n   * Class constructor.\n   * @ignore\n   */\n  constructor() {\n    /**\n     * A dictionary with familiar names for all the events the plugin will listen and use in order\n     * to modify the target configurations.\n     * @type {Object}\n     * @access protected\n     * @ignore\n     */\n    this._events = {\n      htmlRules: 'webpack-html-rules-configuration-for-browser',\n      allRules: 'webpack-rules-configuration-for-browser',\n      baseConfiguration: 'webpack-base-configuration-for-browser',\n      configuration: 'webpack-browser-configuration',\n      babelConfiguration: 'babel-configuration',\n      externalSettings: 'webpack-externals-configuration-for-browser',\n    };\n    /**\n     * The list of Aurelia packages that should never end up on the bundle if the target is a\n     * library.\n     * @type {Array}\n     * @access protected\n     * @ignore\n     */\n    this._externalModules = [\n      'aurelia-framework',\n      'aurelia-pal',\n    ];\n    /**\n     * A dictionary with familiar names for the loaders that will be added to the webpack\n     * configuration.\n     * @type {Object}\n     * @access protected\n     * @ignore\n     */\n    this._loaders = {\n      cleanExtract: 'aurelia-extract-clean-loader',\n      htmlRequires: 'aurelia-webpack-plugin/html-requires-loader',\n      htmlModulesFix: path.resolve(path.join(__dirname, 'htmlLoader')),\n    };\n    /**\n     * A list of Babel plugins that need to be on the target Babel configuration in order to\n     * work with Aurelia.\n     * @type {Array}\n     * @access protected\n     * @ignore\n     */\n    this._babelRequiredPlugins = [\n      'transform-class-inject-directive',\n      ['@babel/plugin-proposal-decorators', {\n        legacy: true,\n      }],\n      ['@babel/plugin-proposal-class-properties', {\n        loose: true,\n      }],\n    ];\n    /**\n     * The required value a target `framework` setting needs to have in order for the plugin to\n     * modify a configuration.\n     * @type {string}\n     * @access protected\n     * @ignore\n     */\n    this._frameworkProperty = 'aurelia';\n    /**\n     * The name of the entry point that webpack will use in order for Aurelia to resolve all the\n     * imports.\n     * @type {string}\n     * @access protected\n     * @ignore\n     */\n    this._aureliaEntry = 'aurelia-bootstrapper';\n  }\n  /**\n   * This is the method called when the plugin is loaded by projext. It setups all the listeners\n   * for the events the plugin needs to intercept in order to:\n   * 1. Update the target HTML rules to include the `aurelia-extract-clean-loader` loader.\n   * 2. Manually add the `aurelia-webpack-plugin/html-requires-loader`.\n   * 3. Add the target source directory for modules resolution.\n   * 4. Update the webpack entry point and add the Aurelia plugin for webpack.\n   * 5. Update the target Babel configuration.\n   * 6. Filter Aurelia packages if the target is a library.\n   * @param {Projext} app The projext main container\n   */\n  register(app) {\n    // Get the `events` service to listen for the events.\n    const events = app.get('events');\n    // Get the `babelHelper` to send to the method that adds support validates the plugins.\n    const babelHelper = app.get('babelHelper');\n    // Add the listener that will push the _\"extract clean loader\"_.\n    events.on(this._events.htmlRules, (rules, params) => this._filterEvent(\n      this._updateHTMLRules,\n      rules,\n      params\n    ));\n    // Add the listener that will push the Aurelia HTML loader.\n    events.on(this._events.allRules, (data, params) => this._filterEvent(\n      this._addExtraHTMLRules,\n      data,\n      params\n    ));\n    // Add the listener that will update the modules resolution directories list.\n    events.on(this._events.baseConfiguration, (config, params) => this._filterEvent(\n      this._addModulesResolution,\n      config,\n      params\n    ));\n    // Add the listener that will update the webpack entry point and add the Aurelia plugin.\n    events.on(this._events.configuration, (config, params) => this._filterEvent(\n      this._updateTargetEntryAndPlugins,\n      config,\n      params\n    ));\n    // Add the listener that will update the target Babel configuration.\n    events.on(this._events.babelConfiguration, (config, target) => this._filterEvent(\n      this._updateBabelConfiguration,\n      config,\n      { target },\n      babelHelper\n    ));\n    // Add the listener that will push the Aurelia packages to the _\"externals\"_ list.\n    events.on(this._events.externalSettings, (externals, params) => this._filterEvent(\n      this._updateExternals,\n      externals,\n      params\n    ));\n  }\n  /**\n   * Updates a target HTML rules and adds:\n   * - The `aurelia-extract-clean-loader` loader and the, which allows you to extract all your CSS\n   * imported from HTML with `mini-css-extract-plugin`.\n   * - The custom loader the fixes HTML modules being exported with ES modules syntax, so they\n   * won't break the Aurelia's loader (which doesn't support `export default`).\n   * @param {Array} rules The original rules.\n   * @return {Array}\n   * @access protected\n   * @ignore\n   */\n  _updateHTMLRules(rules) {\n    const newRules = rules.slice();\n    const [firstRule] = newRules;\n    firstRule.use.unshift(...[\n      this._loaders.cleanExtract,\n      this._loaders.htmlModulesFix,\n    ]);\n    return newRules;\n  }\n  /**\n   * Updates a target rules configuration and pushes a new one to manually add the\n   * `aurelia-webpack-plugin/html-requires-loader` loader. The reason we do this is because\n   * if the `HtmlWebpackPlugin` detects another loader for HTML, it doesn't use the `html-loader`\n   * on the target HTML file.\n   * @param {Object} config       The target rules configuration.\n   * @param {Array}  config.rules The list of rules.\n   * @return {Object}\n   * @access protected\n   * @ignore\n   */\n  _addExtraHTMLRules(config) {\n    const newConfig = Object.assign({}, config);\n    newConfig.rules.push({\n      test: /\\.html?$/,\n      exclude: /\\.tpl\\.html/,\n      use: [this._loaders.htmlRequires],\n    });\n\n    return newConfig;\n  }\n  /**\n   * Updates the paths from where webpack can resolve modules in order to add the target source\n   * directory. This is so aurelia can automatically find components and views.\n   * @param {Object}                     config                 The webpack configuration to\n   *                                                            update.\n   * @param {Object}                     config.resolve         The webpack configuration for\n   *                                                            resolution.\n   * @param {Object}                     config.resolve.modules The list of paths where webpack\n   *                                                            can find modules.\n   * @param {WebpackConfigurationParams} params                 A dictionary generated by the\n   *                                                            webpack plugin with all the\n   *                                                            information about the bundle: The\n   *                                                            target, the build type, the output\n   *                                                            paths, etc.\n   * @return {Object}\n   * @access protected\n   * @ignore\n   */\n  _addModulesResolution(config, params) {\n    const newConfig = Object.assign({}, config);\n    newConfig.resolve.modules.unshift(params.target.paths.source);\n    return newConfig;\n  }\n  /**\n   * Updates webpack entry point and plugins in order to add the Aurelia specific entry and plugin\n   * (required in order to work with the framework).\n   * @param {Object}                     config The webpack configuration for a target.\n   * @param {WebpackConfigurationParams} params A dictionary generated by the webpack plugin with\n   *                                            all the information about the bundle: The target,\n   *                                            the build type, the output paths, etc.\n   * @return {Object}\n   * @access protected\n   * @ignore\n   */\n  _updateTargetEntryAndPlugins(config, params) {\n    const { target, buildType } = params;\n    const newConfig = Object.assign({}, config);\n    const targetEntryFile = path.join(target.paths.source, target.entry[buildType]);\n    const entries = newConfig.entry[target.name];\n    // If the entry is on a list...\n    if (Array.isArray(entries)) {\n      // ...find the target entry.\n      const targetEntryIndex = entries.findIndex((entry) => entry === targetEntryFile);\n      /**\n       * ...if the target entry was found, replace it with the one for Aurelia; otherwise, just\n       * push the one for Aurelia to the list.\n       */\n      if (targetEntryIndex > -1) {\n        newConfig.entry[target.name][targetEntryIndex] = this._aureliaEntry;\n      } else {\n        newConfig.entry[target.name].push(this._aureliaEntry);\n      }\n    } else {\n      // ...otherwise, replace the entry with the one for Aurelia.\n      newConfig.entry[target.name] = this._aureliaEntry;\n    }\n    /**\n     * Filter the plugins by type, as the `HtmlWebpackPlugin` and its plugins need to be before\n     * the one for Aurelia, and rebuild the plugins list.\n     */\n    const plugins = this._filterHTMLPlugins(newConfig.plugins);\n    newConfig.plugins = [\n      ...plugins.html,\n      new AureliaPlugin({\n        aureliaApp: path.parse(targetEntryFile).name,\n        noHtmlLoader: true,\n      }),\n      ...plugins.others,\n    ];\n\n    return newConfig;\n  }\n  /**\n   * Update a target Babel's configuration in order to push the necessary plugins to work\n   * with Aurelia.\n   * @param {Object}      currentConfiguration The current Babel configuration for the target.\n   * @param {Object}      params               An object with the information of the target\n   *                                           being bundled.\n   * @param {Target}      params.target        The target information.\n   * @param {BabelHelper} babelHelper          To update the target configuration and add the\n   *                                           required preset and plugin.\n   * @return {Object}\n   * @access protected\n   * @ignore\n   */\n  _updateBabelConfiguration(currentConfiguration, params, babelHelper) {\n    let newConfig = Object.assign({}, currentConfiguration);\n    this._babelRequiredPlugins.forEach((plugin) => {\n      newConfig = babelHelper.addPlugin(newConfig, plugin);\n    });\n\n    return newConfig;\n  }\n  /**\n   * Updates the dictionary of external modules to ensure non Aurelia packages will end up inside\n   * the bundle when the target is a library.\n   * @param {Object}                     currentExternals A dictionary of external dependencies\n   *                                                      with the format webpack uses:\n   *                                                      `{ 'module': 'commonjs module'}`.\n   * @param {WebpackConfigurationParams} params           A dictionary generated by the webpack\n   *                                                      plugin with all the information about\n   *                                                      the bundle: The target, the build type,\n   *                                                      the output paths, etc.\n   * @return {Object}\n   * @access protected\n   * @ignore\n   */\n  _updateExternals(currentExternals, params) {\n    let updatedExternals;\n    if (params.target.library) {\n      updatedExternals = Object.assign({}, currentExternals);\n      this._externalModules.forEach((name) => {\n        updatedExternals[name] = `commonjs ${name}`;\n      });\n    } else {\n      updatedExternals = currentExternals;\n    }\n\n    return updatedExternals;\n  }\n  /**\n   * This is a helper method that all the event listeners use in order to prevent a method to\n   * be called if the target for that event doesn't use Aurelia. It does it by checking the\n   * target `framework` property.\n   * @param {Function}                          method        The method to be called if the target\n   *                                                          uses Aurelia.\n   * @param {Object|Array}                      obj           The object the event is updating.\n   * @param {WebpackConfigurationParams|Object} params        A dictionary generated by the webpack\n   *                                                          plugin with all the information\n   *                                                          about the bundle: The target, the\n   *                                                          build type, the output paths, etc.\n   * @param {Target}                            params.target The target information.\n   * @param {...*}                              args          Extra parameters for the method that\n   *                                                          will process the event in case the\n   *                                                          target uses Aurelia.\n   * @return {Object|Array} If the target uses Aurelia, it will call the `method` parameter and\n   *                        return whatever it returns; but if the target doesn't use Aurelia,\n   *                        it will return the original `obj`.\n   * @access protected\n   * @ignore\n   */\n  _filterEvent(method, obj, params, ...args) {\n    let result;\n    if (params.target.framework === this._frameworkProperty) {\n      result = method.bind(this)(obj, params, ...args);\n    } else {\n      result = obj;\n    }\n\n    return result;\n  }\n  /**\n   * This is a helper method that _\"categorizes\"_ a list of plugins: the `HtmlWebpackPlugin` and\n   * its plugins on one side and then the other plugins.\n   * The reason is that the configuration needs to have, first the `HtmlWebpackPlugin` and its\n   * plugins, then the Aurelia plugin and then the other ones.\n   * @param {Array} plugins The list of plugins to _\"categorize\"_.\n   * @return {Object} A dictionary with the categories.\n   * @property {Array} html   The list with the `HtmlWebpackPlugin` and its plugin.\n   * @property {Array} others The other plugins.\n   * @access protected\n   * @ignore\n   */\n  _filterHTMLPlugins(plugins) {\n    const html = [];\n    const others = [];\n    plugins.forEach((instance) => {\n      if (\n        instance.constructor &&\n        instance.constructor.name &&\n        instance.constructor.name.match(/HtmlWebpackPlugin/)\n      ) {\n        html.push(instance);\n      } else {\n        others.push(instance);\n      }\n    });\n\n    return {\n      html,\n      others,\n    };\n  }\n}\n\nmodule.exports = ProjextAureliaPlugin;\n",
+    "content": "const path = require('path');\nconst { AureliaPlugin } = require('aurelia-webpack-plugin');\n/**\n * It updates a target webpack and Babel configuration in order to work with the Aurelia framework.\n */\nclass ProjextAureliaPlugin {\n  /**\n   * Class constructor.\n   * @ignore\n   */\n  constructor() {\n    /**\n     * A dictionary with familiar names for all the events the plugin will listen and use in order\n     * to modify the target configurations.\n     * @type {Object}\n     * @access protected\n     * @ignore\n     */\n    this._events = {\n      htmlSettings: 'target-default-html-settings',\n      htmlRules: 'webpack-html-rules-configuration-for-browser',\n      allRules: 'webpack-rules-configuration-for-browser',\n      baseConfiguration: 'webpack-base-configuration-for-browser',\n      configuration: 'webpack-browser-configuration',\n      babelConfiguration: 'babel-configuration',\n      externalSettings: 'webpack-externals-configuration-for-browser',\n    };\n    /**\n     * The list of Aurelia packages that should never end up on the bundle if the target is a\n     * library.\n     * @type {Array}\n     * @access protected\n     * @ignore\n     */\n    this._externalModules = [\n      'aurelia-framework',\n      'aurelia-pal',\n    ];\n    /**\n     * A dictionary with familiar names for the loaders that will be added to the webpack\n     * configuration.\n     * @type {Object}\n     * @access protected\n     * @ignore\n     */\n    this._loaders = {\n      cleanExtract: 'aurelia-extract-clean-loader',\n      htmlRequires: 'aurelia-webpack-plugin/html-requires-loader',\n      htmlModulesFix: path.resolve(path.join(__dirname, 'htmlLoader')),\n    };\n    /**\n     * A list of Babel plugins that need to be on the target Babel configuration in order to\n     * work with Aurelia.\n     * @type {Array}\n     * @access protected\n     * @ignore\n     */\n    this._babelRequiredPlugins = [\n      'transform-class-inject-directive',\n      ['@babel/plugin-proposal-decorators', {\n        legacy: true,\n      }],\n      ['@babel/plugin-proposal-class-properties', {\n        loose: true,\n      }],\n    ];\n    /**\n     * The required value a target `framework` setting needs to have in order for the plugin to\n     * modify a configuration.\n     * @type {string}\n     * @access protected\n     * @ignore\n     */\n    this._frameworkProperty = 'aurelia';\n    /**\n     * The name of the entry point that webpack will use in order for Aurelia to resolve all the\n     * imports.\n     * @type {string}\n     * @access protected\n     * @ignore\n     */\n    this._aureliaEntry = 'aurelia-bootstrapper';\n    /**\n     * The default values for the options a target can use to customize the default HTML projext\n     * generates.\n     * @type {Object}\n     * @property {?string} title         A custom value for the `<title />` tag. If the target\n     *                                   doesn't define it, the plugin will use the one projext\n     *                                   sets by default (The name of the target).\n     * @property {boolean} useBody       Whether or not the `body` should be used as the app tag\n     *                                   (`aurelia-app`).\n     * @access protected\n     * @ignore\n     */\n    this._frameworkOptions = {\n      title: null,\n      useBody: true,\n    };\n  }\n  /**\n   * This is the method called when the plugin is loaded by projext. It setups all the listeners\n   * for the events the plugin needs to intercept in order to:\n   * 1. Update the target HTML rules to include the `aurelia-extract-clean-loader` loader.\n   * 2. Manually add the `aurelia-webpack-plugin/html-requires-loader`.\n   * 3. Add the target source directory for modules resolution.\n   * 4. Update the webpack entry point and add the Aurelia plugin for webpack.\n   * 5. Update the target Babel configuration.\n   * 6. Filter Aurelia packages if the target is a library.\n   * @param {Projext} app The projext main container\n   */\n  register(app) {\n    // Get the `events` service to listen for the events.\n    const events = app.get('events');\n    // Get the `babelHelper` to send to the method that adds support validates the plugins.\n    const babelHelper = app.get('babelHelper');\n    // Add the listener for the default HTML settings.\n    events.on(this._events.htmlSettings, (settings, target, buildType) => (\n      this._updateHTMLSettings(settings, target, buildType)\n    ));\n    // Add the listener that will push the _\"extract clean loader\"_.\n    events.on(this._events.htmlRules, (rules, params) => this._filterEvent(\n      this._updateHTMLRules,\n      rules,\n      params\n    ));\n    // Add the listener that will push the Aurelia HTML loader.\n    events.on(this._events.allRules, (data, params) => this._filterEvent(\n      this._addExtraHTMLRules,\n      data,\n      params\n    ));\n    // Add the listener that will update the modules resolution directories list.\n    events.on(this._events.baseConfiguration, (config, params) => this._filterEvent(\n      this._addModulesResolution,\n      config,\n      params\n    ));\n    // Add the listener that will update the webpack entry point and add the Aurelia plugin.\n    events.on(this._events.configuration, (config, params) => this._filterEvent(\n      this._updateTargetEntryAndPlugins,\n      config,\n      params\n    ));\n    // Add the listener that will update the target Babel configuration.\n    events.on(this._events.babelConfiguration, (config, target) => this._filterEvent(\n      this._updateBabelConfiguration,\n      config,\n      { target },\n      babelHelper\n    ));\n    // Add the listener that will push the Aurelia packages to the _\"externals\"_ list.\n    events.on(this._events.externalSettings, (externals, params) => this._filterEvent(\n      this._updateExternals,\n      externals,\n      params\n    ));\n  }\n  /**\n   * Reads the settings projext usess to build a browser target default HTML file and updates them\n   * based on the framework options defined by the target in order to run an Aurelia app.\n   * @param {TargetDefaultHTMLSettings} currentSettings The settings projext uses to build a target\n   *                                                    default HTML file.\n   * @param {Target}                    target          The target information.\n   * @param {string}                    buildType       The type of build being generated:\n   *                                                    'development' or 'production'.\n   * @return {TargetDefaultHTMLSettings}\n   * @access protected\n   * @ignore\n   */\n  _updateHTMLSettings(currentSettings, target, buildType) {\n    let updatedSettings;\n    if (target.is.browser && target.framework === this._frameworkProperty) {\n      updatedSettings = Object.assign({}, currentSettings);\n      const useBuildType = ['production', 'development'].includes(buildType) ?\n        buildType :\n        'production';\n      const options = Object.assign(\n        {\n          appName: path.parse(target.entry[useBuildType]).name.split('.').shift(),\n        },\n        this._frameworkOptions,\n        (target.frameworkOptions || {})\n      );\n\n      if (options.title) {\n        updatedSettings.title = options.title;\n      }\n\n      const attributes = `aurelia-app=\"${options.appName}\"`;\n      if (options.useBody) {\n        updatedSettings.bodyAttributes = attributes;\n        updatedSettings.bodyContents = '';\n      } else {\n        updatedSettings.bodyContents = `<div id=\"app\" ${attributes}></div>`;\n      }\n    } else {\n      updatedSettings = currentSettings;\n    }\n\n    return updatedSettings;\n  }\n  /**\n   * Updates a target HTML rules and adds:\n   * - The `aurelia-extract-clean-loader` loader and the, which allows you to extract all your CSS\n   * imported from HTML with `mini-css-extract-plugin`.\n   * - The custom loader the fixes HTML modules being exported with ES modules syntax, so they\n   * won't break the Aurelia's loader (which doesn't support `export default`).\n   * @param {Array} rules The original rules.\n   * @return {Array}\n   * @access protected\n   * @ignore\n   */\n  _updateHTMLRules(rules) {\n    const newRules = rules.slice();\n    const [firstRule] = newRules;\n    firstRule.use.unshift(...[\n      this._loaders.cleanExtract,\n      this._loaders.htmlModulesFix,\n    ]);\n    return newRules;\n  }\n  /**\n   * Updates a target rules configuration and pushes a new one to manually add the\n   * `aurelia-webpack-plugin/html-requires-loader` loader. The reason we do this is because\n   * if the `HtmlWebpackPlugin` detects another loader for HTML, it doesn't use the `html-loader`\n   * on the target HTML file.\n   * @param {Object} config       The target rules configuration.\n   * @param {Array}  config.rules The list of rules.\n   * @return {Object}\n   * @access protected\n   * @ignore\n   */\n  _addExtraHTMLRules(config) {\n    const newConfig = Object.assign({}, config);\n    newConfig.rules.push({\n      test: /\\.html?$/,\n      exclude: /\\.tpl\\.html/,\n      use: [this._loaders.htmlRequires],\n    });\n\n    return newConfig;\n  }\n  /**\n   * Updates the paths from where webpack can resolve modules in order to add the target source\n   * directory. This is so aurelia can automatically find components and views.\n   * @param {Object}                     config                 The webpack configuration to\n   *                                                            update.\n   * @param {Object}                     config.resolve         The webpack configuration for\n   *                                                            resolution.\n   * @param {Object}                     config.resolve.modules The list of paths where webpack\n   *                                                            can find modules.\n   * @param {WebpackConfigurationParams} params                 A dictionary generated by the\n   *                                                            webpack plugin with all the\n   *                                                            information about the bundle: The\n   *                                                            target, the build type, the output\n   *                                                            paths, etc.\n   * @return {Object}\n   * @access protected\n   * @ignore\n   */\n  _addModulesResolution(config, params) {\n    const newConfig = Object.assign({}, config);\n    newConfig.resolve.modules.unshift(params.target.paths.source);\n    return newConfig;\n  }\n  /**\n   * Updates webpack entry point and plugins in order to add the Aurelia specific entry and plugin\n   * (required in order to work with the framework).\n   * @param {Object}                     config The webpack configuration for a target.\n   * @param {WebpackConfigurationParams} params A dictionary generated by the webpack plugin with\n   *                                            all the information about the bundle: The target,\n   *                                            the build type, the output paths, etc.\n   * @return {Object}\n   * @access protected\n   * @ignore\n   */\n  _updateTargetEntryAndPlugins(config, params) {\n    const { target, buildType } = params;\n    const newConfig = Object.assign({}, config);\n    const targetEntryFile = path.join(target.paths.source, target.entry[buildType]);\n    const entries = newConfig.entry[target.name];\n    // If the entry is on a list...\n    if (Array.isArray(entries)) {\n      // ...find the target entry.\n      const targetEntryIndex = entries.findIndex((entry) => entry === targetEntryFile);\n      /**\n       * ...if the target entry was found, replace it with the one for Aurelia; otherwise, just\n       * push the one for Aurelia to the list.\n       */\n      if (targetEntryIndex > -1) {\n        newConfig.entry[target.name][targetEntryIndex] = this._aureliaEntry;\n      } else {\n        newConfig.entry[target.name].push(this._aureliaEntry);\n      }\n    } else {\n      // ...otherwise, replace the entry with the one for Aurelia.\n      newConfig.entry[target.name] = this._aureliaEntry;\n    }\n    /**\n     * Filter the plugins by type, as the `HtmlWebpackPlugin` and its plugins need to be before\n     * the one for Aurelia, and rebuild the plugins list.\n     */\n    const plugins = this._filterHTMLPlugins(newConfig.plugins);\n    newConfig.plugins = [\n      ...plugins.html,\n      new AureliaPlugin({\n        aureliaApp: path.parse(targetEntryFile).name,\n        noHtmlLoader: true,\n      }),\n      ...plugins.others,\n    ];\n\n    return newConfig;\n  }\n  /**\n   * Update a target Babel's configuration in order to push the necessary plugins to work\n   * with Aurelia.\n   * @param {Object}      currentConfiguration The current Babel configuration for the target.\n   * @param {Object}      params               An object with the information of the target\n   *                                           being bundled.\n   * @param {Target}      params.target        The target information.\n   * @param {BabelHelper} babelHelper          To update the target configuration and add the\n   *                                           required preset and plugin.\n   * @return {Object}\n   * @access protected\n   * @ignore\n   */\n  _updateBabelConfiguration(currentConfiguration, params, babelHelper) {\n    let newConfig = Object.assign({}, currentConfiguration);\n    this._babelRequiredPlugins.forEach((plugin) => {\n      newConfig = babelHelper.addPlugin(newConfig, plugin);\n    });\n\n    return newConfig;\n  }\n  /**\n   * Updates the dictionary of external modules to ensure non Aurelia packages will end up inside\n   * the bundle when the target is a library.\n   * @param {Object}                     currentExternals A dictionary of external dependencies\n   *                                                      with the format webpack uses:\n   *                                                      `{ 'module': 'commonjs module'}`.\n   * @param {WebpackConfigurationParams} params           A dictionary generated by the webpack\n   *                                                      plugin with all the information about\n   *                                                      the bundle: The target, the build type,\n   *                                                      the output paths, etc.\n   * @return {Object}\n   * @access protected\n   * @ignore\n   */\n  _updateExternals(currentExternals, params) {\n    let updatedExternals;\n    if (params.target.library) {\n      updatedExternals = Object.assign({}, currentExternals);\n      this._externalModules.forEach((name) => {\n        updatedExternals[name] = `commonjs ${name}`;\n      });\n    } else {\n      updatedExternals = currentExternals;\n    }\n\n    return updatedExternals;\n  }\n  /**\n   * This is a helper method that all the event listeners use in order to prevent a method to\n   * be called if the target for that event doesn't use Aurelia. It does it by checking the\n   * target `framework` property.\n   * @param {Function}                          method        The method to be called if the target\n   *                                                          uses Aurelia.\n   * @param {Object|Array}                      obj           The object the event is updating.\n   * @param {WebpackConfigurationParams|Object} params        A dictionary generated by the webpack\n   *                                                          plugin with all the information\n   *                                                          about the bundle: The target, the\n   *                                                          build type, the output paths, etc.\n   * @param {Target}                            params.target The target information.\n   * @param {...*}                              args          Extra parameters for the method that\n   *                                                          will process the event in case the\n   *                                                          target uses Aurelia.\n   * @return {Object|Array} If the target uses Aurelia, it will call the `method` parameter and\n   *                        return whatever it returns; but if the target doesn't use Aurelia,\n   *                        it will return the original `obj`.\n   * @access protected\n   * @ignore\n   */\n  _filterEvent(method, obj, params, ...args) {\n    let result;\n    if (params.target.framework === this._frameworkProperty) {\n      result = method.bind(this)(obj, params, ...args);\n    } else {\n      result = obj;\n    }\n\n    return result;\n  }\n  /**\n   * This is a helper method that _\"categorizes\"_ a list of plugins: the `HtmlWebpackPlugin` and\n   * its plugins on one side and then the other plugins.\n   * The reason is that the configuration needs to have, first the `HtmlWebpackPlugin` and its\n   * plugins, then the Aurelia plugin and then the other ones.\n   * @param {Array} plugins The list of plugins to _\"categorize\"_.\n   * @return {Object} A dictionary with the categories.\n   * @property {Array} html   The list with the `HtmlWebpackPlugin` and its plugin.\n   * @property {Array} others The other plugins.\n   * @access protected\n   * @ignore\n   */\n  _filterHTMLPlugins(plugins) {\n    const html = [];\n    const others = [];\n    plugins.forEach((instance) => {\n      if (\n        instance.constructor &&\n        instance.constructor.name &&\n        instance.constructor.name.match(/HtmlWebpackPlugin/)\n      ) {\n        html.push(instance);\n      } else {\n        others.push(instance);\n      }\n    });\n\n    return {\n      html,\n      others,\n    };\n  }\n}\n\nmodule.exports = ProjextAureliaPlugin;\n",
     "static": true,
     "longname": "/Users/homer0/CODE/node/projext/projext-plugin-webpack-aurelia/src/plugin.js",
     "access": "public",
@@ -697,7 +697,7 @@
     "importPath": "projext-plugin-webpack-aurelia/src/plugin.js",
     "importStyle": "ProjextAureliaPlugin",
     "description": "It updates a target webpack and Babel configuration in order to work with the Aurelia framework.",
-    "lineNumber": 7,
+    "lineNumber": 6,
     "interface": false
   },
   {
@@ -711,7 +711,7 @@
     "longname": "src/plugin.js~ProjextAureliaPlugin#constructor",
     "access": "public",
     "description": "Class constructor.",
-    "lineNumber": 12,
+    "lineNumber": 11,
     "ignore": true
   },
   {
@@ -723,7 +723,7 @@
     "longname": "src/plugin.js~ProjextAureliaPlugin#_events",
     "access": "protected",
     "description": "A dictionary with familiar names for all the events the plugin will listen and use in order\nto modify the target configurations.",
-    "lineNumber": 20,
+    "lineNumber": 19,
     "ignore": true,
     "type": {
       "nullable": null,
@@ -836,6 +836,48 @@
   },
   {
     "__docId__": 62,
+    "kind": "member",
+    "name": "_frameworkOptions",
+    "memberof": "src/plugin.js~ProjextAureliaPlugin",
+    "static": false,
+    "longname": "src/plugin.js~ProjextAureliaPlugin#_frameworkOptions",
+    "access": "protected",
+    "description": "The default values for the options a target can use to customize the default HTML projext\ngenerates.",
+    "lineNumber": 95,
+    "ignore": true,
+    "properties": [
+      {
+        "nullable": true,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "title",
+        "description": "A custom value for the `<title />` tag. If the target\n                                  doesn't define it, the plugin will use the one projext\n                                  sets by default (The name of the target)."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "boolean"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "useBody",
+        "description": "Whether or not the `body` should be used as the app tag\n                                  (`aurelia-app`)."
+      }
+    ],
+    "type": {
+      "nullable": null,
+      "types": [
+        "Object"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 63,
     "kind": "method",
     "name": "register",
     "memberof": "src/plugin.js~ProjextAureliaPlugin",
@@ -845,7 +887,7 @@
     "longname": "src/plugin.js~ProjextAureliaPlugin#register",
     "access": "public",
     "description": "This is the method called when the plugin is loaded by projext. It setups all the listeners\nfor the events the plugin needs to intercept in order to:\n1. Update the target HTML rules to include the `aurelia-extract-clean-loader` loader.\n2. Manually add the `aurelia-webpack-plugin/html-requires-loader`.\n3. Add the target source directory for modules resolution.\n4. Update the webpack entry point and add the Aurelia plugin for webpack.\n5. Update the target Babel configuration.\n6. Filter Aurelia packages if the target is a library.",
-    "lineNumber": 95,
+    "lineNumber": 111,
     "params": [
       {
         "nullable": null,
@@ -861,7 +903,61 @@
     "return": null
   },
   {
-    "__docId__": 63,
+    "__docId__": 64,
+    "kind": "method",
+    "name": "_updateHTMLSettings",
+    "memberof": "src/plugin.js~ProjextAureliaPlugin",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/plugin.js~ProjextAureliaPlugin#_updateHTMLSettings",
+    "access": "protected",
+    "description": "Reads the settings projext usess to build a browser target default HTML file and updates them\nbased on the framework options defined by the target in order to run an Aurelia app.",
+    "lineNumber": 170,
+    "ignore": true,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "TargetDefaultHTMLSettings"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "currentSettings",
+        "description": "The settings projext uses to build a target\n                                                   default HTML file."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Target"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "target",
+        "description": "The target information."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "buildType",
+        "description": "The type of build being generated:\n                                                   'development' or 'production'."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "TargetDefaultHTMLSettings"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 65,
     "kind": "method",
     "name": "_updateHTMLRules",
     "memberof": "src/plugin.js~ProjextAureliaPlugin",
@@ -871,7 +967,7 @@
     "longname": "src/plugin.js~ProjextAureliaPlugin#_updateHTMLRules",
     "access": "protected",
     "description": "Updates a target HTML rules and adds:\n- The `aurelia-extract-clean-loader` loader and the, which allows you to extract all your CSS\nimported from HTML with `mini-css-extract-plugin`.\n- The custom loader the fixes HTML modules being exported with ES modules syntax, so they\nwon't break the Aurelia's loader (which doesn't support `export default`).",
-    "lineNumber": 149,
+    "lineNumber": 213,
     "ignore": true,
     "params": [
       {
@@ -895,7 +991,7 @@
     }
   },
   {
-    "__docId__": 64,
+    "__docId__": 66,
     "kind": "method",
     "name": "_addExtraHTMLRules",
     "memberof": "src/plugin.js~ProjextAureliaPlugin",
@@ -905,7 +1001,7 @@
     "longname": "src/plugin.js~ProjextAureliaPlugin#_addExtraHTMLRules",
     "access": "protected",
     "description": "Updates a target rules configuration and pushes a new one to manually add the\n`aurelia-webpack-plugin/html-requires-loader` loader. The reason we do this is because\nif the `HtmlWebpackPlugin` detects another loader for HTML, it doesn't use the `html-loader`\non the target HTML file.",
-    "lineNumber": 169,
+    "lineNumber": 233,
     "ignore": true,
     "params": [
       {
@@ -939,7 +1035,7 @@
     }
   },
   {
-    "__docId__": 65,
+    "__docId__": 67,
     "kind": "method",
     "name": "_addModulesResolution",
     "memberof": "src/plugin.js~ProjextAureliaPlugin",
@@ -949,7 +1045,7 @@
     "longname": "src/plugin.js~ProjextAureliaPlugin#_addModulesResolution",
     "access": "protected",
     "description": "Updates the paths from where webpack can resolve modules in order to add the target source\ndirectory. This is so aurelia can automatically find components and views.",
-    "lineNumber": 197,
+    "lineNumber": 261,
     "ignore": true,
     "params": [
       {
@@ -1003,7 +1099,7 @@
     }
   },
   {
-    "__docId__": 66,
+    "__docId__": 68,
     "kind": "method",
     "name": "_updateTargetEntryAndPlugins",
     "memberof": "src/plugin.js~ProjextAureliaPlugin",
@@ -1013,7 +1109,7 @@
     "longname": "src/plugin.js~ProjextAureliaPlugin#_updateTargetEntryAndPlugins",
     "access": "protected",
     "description": "Updates webpack entry point and plugins in order to add the Aurelia specific entry and plugin\n(required in order to work with the framework).",
-    "lineNumber": 213,
+    "lineNumber": 277,
     "ignore": true,
     "params": [
       {
@@ -1047,7 +1143,7 @@
     }
   },
   {
-    "__docId__": 67,
+    "__docId__": 69,
     "kind": "method",
     "name": "_updateBabelConfiguration",
     "memberof": "src/plugin.js~ProjextAureliaPlugin",
@@ -1057,7 +1153,7 @@
     "longname": "src/plugin.js~ProjextAureliaPlugin#_updateBabelConfiguration",
     "access": "protected",
     "description": "Update a target Babel's configuration in order to push the necessary plugins to work\nwith Aurelia.",
-    "lineNumber": 264,
+    "lineNumber": 328,
     "ignore": true,
     "params": [
       {
@@ -1111,7 +1207,7 @@
     }
   },
   {
-    "__docId__": 68,
+    "__docId__": 70,
     "kind": "method",
     "name": "_updateExternals",
     "memberof": "src/plugin.js~ProjextAureliaPlugin",
@@ -1121,7 +1217,7 @@
     "longname": "src/plugin.js~ProjextAureliaPlugin#_updateExternals",
     "access": "protected",
     "description": "Updates the dictionary of external modules to ensure non Aurelia packages will end up inside\nthe bundle when the target is a library.",
-    "lineNumber": 286,
+    "lineNumber": 350,
     "ignore": true,
     "params": [
       {
@@ -1155,7 +1251,7 @@
     }
   },
   {
-    "__docId__": 69,
+    "__docId__": 71,
     "kind": "method",
     "name": "_filterEvent",
     "memberof": "src/plugin.js~ProjextAureliaPlugin",
@@ -1165,7 +1261,7 @@
     "longname": "src/plugin.js~ProjextAureliaPlugin#_filterEvent",
     "access": "protected",
     "description": "This is a helper method that all the event listeners use in order to prevent a method to\nbe called if the target for that event doesn't use Aurelia. It does it by checking the\ntarget `framework` property.",
-    "lineNumber": 320,
+    "lineNumber": 384,
     "ignore": true,
     "params": [
       {
@@ -1232,7 +1328,7 @@
     }
   },
   {
-    "__docId__": 70,
+    "__docId__": 72,
     "kind": "method",
     "name": "_filterHTMLPlugins",
     "memberof": "src/plugin.js~ProjextAureliaPlugin",
@@ -1242,7 +1338,7 @@
     "longname": "src/plugin.js~ProjextAureliaPlugin#_filterHTMLPlugins",
     "access": "protected",
     "description": "This is a helper method that _\"categorizes\"_ a list of plugins: the `HtmlWebpackPlugin` and\nits plugins on one side and then the other plugins.\nThe reason is that the configuration needs to have, first the `HtmlWebpackPlugin` and its\nplugins, then the Aurelia plugin and then the other ones.",
-    "lineNumber": 342,
+    "lineNumber": 406,
     "ignore": true,
     "params": [
       {
@@ -1288,7 +1384,7 @@
     }
   },
   {
-    "__docId__": 71,
+    "__docId__": 73,
     "kind": "file",
     "name": "src/typedef.js",
     "content": "/**\n * @external {Projext}\n * https://homer0.github.io/projext/class/src/app/index.js~Projext.html\n */\n\n/**\n * @external {Target}\n * https://homer0.github.io/projext/typedef/index.html#static-typedef-Target\n * @ignore\n */\n\n/**\n * @external {BabelHelper}\n * https://homer0.github.io/projext/class/src/services/common/babelHelper.js~BabelHelper.html\n * @ignore\n */\n\n/**\n * @external {WebpackConfigurationParams}\n * https://homer0.github.io/projext-plugin-webpack/typedef/index.html#static-typedef-WebpackConfigurationParams\n * @ignore\n */\n",
@@ -1299,7 +1395,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 72,
+    "__docId__": 74,
     "kind": "external",
     "name": "Projext",
     "externalLink": "https://homer0.github.io/projext/class/src/app/index.js~Projext.html",
@@ -1310,7 +1406,7 @@
     "description": ""
   },
   {
-    "__docId__": 73,
+    "__docId__": 75,
     "kind": "external",
     "name": "Target",
     "externalLink": "https://homer0.github.io/projext/typedef/index.html#static-typedef-Target",
@@ -1322,7 +1418,7 @@
     "ignore": true
   },
   {
-    "__docId__": 74,
+    "__docId__": 76,
     "kind": "external",
     "name": "BabelHelper",
     "externalLink": "https://homer0.github.io/projext/class/src/services/common/babelHelper.js~BabelHelper.html",
@@ -1334,7 +1430,7 @@
     "ignore": true
   },
   {
-    "__docId__": 75,
+    "__docId__": 77,
     "kind": "external",
     "name": "WebpackConfigurationParams",
     "externalLink": "https://homer0.github.io/projext-plugin-webpack/typedef/index.html#static-typedef-WebpackConfigurationParams",
@@ -1347,7 +1443,7 @@
   },
   {
     "kind": "index",
-    "content": "# projext plugin for Aurelia on webpack\n\n[![Travis](https://img.shields.io/travis/homer0/projext-plugin-webpack-aurelia.svg?style=flat-square)](https://travis-ci.org/homer0/projext-plugin-webpack-aurelia)\n[![Coveralls github](https://img.shields.io/coveralls/github/homer0/projext-plugin-webpack-aurelia.svg?style=flat-square)](https://coveralls.io/github/homer0/projext-plugin-webpack-aurelia?branch=master)\n[![David](https://img.shields.io/david/homer0/projext-plugin-webpack-aurelia.svg?style=flat-square)](https://david-dm.org/homer0/projext-plugin-webpack-aurelia)\n[![David](https://img.shields.io/david/dev/homer0/projext-plugin-webpack-aurelia.svg?style=flat-square)](https://david-dm.org/homer0/projext-plugin-webpack-aurelia)\n\nAllows you to bundle an [Aurelia](https://aurelia.io) project with [projext](https://yarnpkg.com/en/package/projext) using the [webpack](https://webpack.js.org) [build engine](https://yarnpkg.com/en/package/projext-plugin-webpack).\n\n## Introduction\n\n[projext](https://yarnpkg.com/en/package/projext) allows you to configure a project without adding specific settings for a module bundler, then you can decide which build engine to use. This plugin is meant to be used when you are bundling an [Aurelia](https://aurelia.io) application and you are using the [webpack](https://webpack.js.org) [build engine](https://yarnpkg.com/en/package/projext-plugin-webpack).\n\nThe plugin basically follows the instructions from the [Aurelia webpack skeleton example](https://github.com/aurelia/skeleton-navigation/tree/master/skeleton-esnext-webpack), configures Aurelia entry point the [Aurelia webpack plugin](https://yarnpkg.com/en/package/aurelia-webpack-plugin).\n\nIt also adds a few extra functionalities:\n\n- [`aurelia-extract-clean-loader`](https://yarnpkg.com/en/package/aurelia-extract-clean-loader): To avoid duplicated CSS (on the JS and CSS) when using [`mini-css-extract-plugin`](https://yarnpkg.com/en/package/mini-css-extract-plugin).\n- [`babel-plugin-transform-class-inject-directive`](https://yarnpkg.com/en/package/babel-plugin-transform-class-inject-directive): To be able to use the `inject` directive on classes.\n\n## Information\n\n| -            | -                                                                                      |\n|--------------|----------------------------------------------------------------------------------------|\n| Package      | projext-plugin-webpack-aurelia                                                         |\n| Description  | Allows you to bundle an Aurelia project with projext using the webpack build engine.   |\n| Node Version | >= v8.0.0                                                                              |\n\n## Usage\n\nYou first need the build engine, so install [`projext-plugin-webpack`](https://yarnpkg.com/en/package/projext-plugin-webpack).\n\nNow, if your target entry file imports `aurelia-framework` or `aurelia-pal`, projext will automatically set the target `framework` property to `aurelia`; otherwise you'll have to do it manually.\n\nFinally, on your target entry file:\n\n```js\nexport const configure = (aurelia) => {\n  ...\n}\n```\n\nDone! Just configure your Aurelia plugins/components and run your target!\n\n## Development\n\n### Yarn/NPM Tasks\n\n| Task                    | Description                         |\n|-------------------------|-------------------------------------|\n| `yarn test`             | Run the project unit tests.         |\n| `yarn run lint`         | Lint the modified files.            |\n| `yarn run lint:full`    | Lint the project code.              |\n| `yarn run docs`         | Generate the project documentation. |\n\n### Testing\n\nI use [Jest](https://facebook.github.io/jest/) with [Jest-Ex](https://yarnpkg.com/en/package/jest-ex) to test the project. The configuration file is on `./.jestrc`, the tests and mocks are on `./tests` and the script that runs it is on `./utils/scripts/test`.\n\n### Linting\n\nI use [ESlint](http://eslint.org) to validate all our JS code. The configuration file for the project code is on `./.eslintrc` and for the tests on `./tests/.eslintrc` (which inherits from the one on the root), there's also an `./.eslintignore` to ignore some files on the process, and the script that runs it is on `./utils/scripts/lint`.\n\n### Documentation\n\nI use [ESDoc](http://esdoc.org) to generate HTML documentation for the project. The configuration file is on `./.esdocrc` and the script that runs it is on `./utils/scripts/docs`.\n",
+    "content": "# projext plugin for Aurelia on webpack\n\n[![Travis](https://img.shields.io/travis/homer0/projext-plugin-webpack-aurelia.svg?style=flat-square)](https://travis-ci.org/homer0/projext-plugin-webpack-aurelia)\n[![Coveralls github](https://img.shields.io/coveralls/github/homer0/projext-plugin-webpack-aurelia.svg?style=flat-square)](https://coveralls.io/github/homer0/projext-plugin-webpack-aurelia?branch=master)\n[![David](https://img.shields.io/david/homer0/projext-plugin-webpack-aurelia.svg?style=flat-square)](https://david-dm.org/homer0/projext-plugin-webpack-aurelia)\n[![David](https://img.shields.io/david/dev/homer0/projext-plugin-webpack-aurelia.svg?style=flat-square)](https://david-dm.org/homer0/projext-plugin-webpack-aurelia)\n\nAllows you to bundle an [Aurelia](https://aurelia.io) project with [projext](https://yarnpkg.com/en/package/projext) using the [webpack](https://webpack.js.org) [build engine](https://yarnpkg.com/en/package/projext-plugin-webpack).\n\n## Introduction\n\n[projext](https://yarnpkg.com/en/package/projext) allows you to configure a project without adding specific settings for a module bundler, then you can decide which build engine to use. This plugin is meant to be used when you are bundling an [Aurelia](https://aurelia.io) application and you are using the [webpack](https://webpack.js.org) [build engine](https://yarnpkg.com/en/package/projext-plugin-webpack).\n\nThe plugin basically follows the instructions from the [Aurelia webpack skeleton example](https://github.com/aurelia/skeleton-navigation/tree/master/skeleton-esnext-webpack), configures Aurelia entry point the [Aurelia webpack plugin](https://yarnpkg.com/en/package/aurelia-webpack-plugin).\n\nIt also adds a few extra functionalities:\n\n- [`aurelia-extract-clean-loader`](https://yarnpkg.com/en/package/aurelia-extract-clean-loader): To avoid duplicated CSS (on the JS and CSS) when using [`mini-css-extract-plugin`](https://yarnpkg.com/en/package/mini-css-extract-plugin).\n- [`babel-plugin-transform-class-inject-directive`](https://yarnpkg.com/en/package/babel-plugin-transform-class-inject-directive): To be able to use the `inject` directive on classes.\n\n## Information\n\n| -            | -                                                                                      |\n|--------------|----------------------------------------------------------------------------------------|\n| Package      | projext-plugin-webpack-aurelia                                                         |\n| Description  | Allows you to bundle an Aurelia project with projext using the webpack build engine.   |\n| Node Version | >= v10.13.0                                                                              |\n\n## Usage\n\nYou first need the build engine, so install [`projext-plugin-webpack`](https://yarnpkg.com/en/package/projext-plugin-webpack).\n\nNow, if your target entry file imports `aurelia-framework` or `aurelia-pal`, projext will automatically set the target `framework` property to `aurelia`; otherwise you'll have to do it manually.\n\nFinally, on your target entry file:\n\n```js\nexport const configure = (aurelia) => {\n  ...\n}\n```\n\nDone! Just configure your Aurelia plugins/components and run your target!\n\n### Default HTML\n\nIf you didn't create an HTML file for your Aurelia app, projext will automatically create one for you, and then this plugin will take care of updating it so you can run your app right away.\n\nThere are some options you can change in your target settings in order to customize the way the HTML generated; you just need to add a `frameworkOptions` property on your target:\n```js\n{\n  frameworkOptions: {\n    title: null,\n    useBody: true,\n  }\n}\n```\n\n- `title`: A custom title for the HTML file. By default, projext, uses the name of the target.\n- `useBody`: Whether to add the `aurelia-app` attribute and the directives on the `<body />` or on a `<div />` inside it.\n\n## Development\n\n### Yarn/NPM Tasks\n\n| Task                    | Description                         |\n|-------------------------|-------------------------------------|\n| `yarn test`             | Run the project unit tests.         |\n| `yarn run lint`         | Lint the modified files.            |\n| `yarn run lint:full`    | Lint the project code.              |\n| `yarn run docs`         | Generate the project documentation. |\n\n### Testing\n\nI use [Jest](https://facebook.github.io/jest/) with [Jest-Ex](https://yarnpkg.com/en/package/jest-ex) to test the project. The configuration file is on `./.jestrc`, the tests and mocks are on `./tests` and the script that runs it is on `./utils/scripts/test`.\n\n### Linting\n\nI use [ESlint](http://eslint.org) to validate all our JS code. The configuration file for the project code is on `./.eslintrc` and for the tests on `./tests/.eslintrc` (which inherits from the one on the root), there's also an `./.eslintignore` to ignore some files on the process, and the script that runs it is on `./utils/scripts/lint`.\n\n### Documentation\n\nI use [ESDoc](http://esdoc.org) to generate HTML documentation for the project. The configuration file is on `./.esdocrc` and the script that runs it is on `./utils/scripts/docs`.\n",
     "longname": "/Users/homer0/CODE/node/projext/projext-plugin-webpack-aurelia/README.md",
     "name": "./README.md",
     "static": true,
@@ -1355,7 +1451,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n  \"name\": \"projext-plugin-webpack-aurelia\",\n  \"description\": \"Allows you to bundle an Aurelia project with projext using the webpack build engine.\",\n  \"homepage\": \"https://homer0.github.io/projext-plugin-webpack-aurelia/\",\n  \"version\": \"2.0.0\",\n  \"repository\": \"homer0/projext-plugin-webpack-aurelia\",\n  \"author\": \"Leonardo Apiwan (@homer0) <me@homer0.com>\",\n  \"license\": \"MIT\",\n  \"dependencies\": {\n    \"aurelia-extract-clean-loader\": \"^2.0.1\",\n    \"aurelia-webpack-plugin\": \"^4.0.0\",\n    \"aurelia-loader-webpack\": \"^2.2.1\",\n    \"aurelia-loader-nodejs\": \"^1.0.1\",\n    \"aurelia-pal-nodejs\": \"^1.2.0\",\n\n    \"aurelia-templating\": \"^1.10.2\",\n    \"aurelia-dependency-injection\": \"^1.4.2\",\n    \"aurelia-path\": \"^1.1.3\",\n\n    \"webpack\": \"^4.38.0\",\n    \"babel-plugin-transform-class-inject-directive\": \"^2.0.1\"\n  },\n  \"devDependencies\": {\n    \"wootils\": \"^2.6.0\",\n    \"eslint\": \"^5.16.0\",\n    \"eslint-config-airbnb-base\": \"^13.2.0\",\n    \"eslint-plugin-import\": \"^2.18.2\",\n    \"eslint-plugin-node\": \"^9.1.0\",\n    \"@babel/core\": \"7.5.5\",\n    \"@babel/preset-env\": \"7.5.5\",\n    \"@babel/plugin-transform-runtime\": \"7.5.5\",\n    \"jest-ex\": \"^6.1.1\",\n    \"jest-cli\": \"^24.8.0\",\n    \"jasmine-expect\": \"^4.0.3\",\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"esdoc-node\": \"^1.0.4\",\n    \"coveralls\": \"^3.0.5\",\n    \"husky\": \"^3.0.2\"\n  },\n  \"engine-strict\": true,\n  \"engines\": {\n    \"node\": \">=8.10.0\",\n    \"npm\": \">=3.0.0\"\n  },\n  \"main\": \"src/index.js\",\n  \"husky\": {\n    \"hooks\": {\n      \"pre-commit\": \"./utils/hooks/pre-commit\",\n      \"post-merge\": \"./utils/hooks/post-merge\"\n    }\n  },\n  \"scripts\": {\n    \"test\": \"./utils/scripts/test\",\n    \"lint\": \"./utils/scripts/lint\",\n    \"lint:full\": \"./utils/scripts/lint-full\",\n    \"docs\": \"./utils/scripts/docs\"\n  }\n}\n",
+    "content": "{\n  \"name\": \"projext-plugin-webpack-aurelia\",\n  \"description\": \"Allows you to bundle an Aurelia project with projext using the webpack build engine.\",\n  \"homepage\": \"https://homer0.github.io/projext-plugin-webpack-aurelia/\",\n  \"version\": \"3.0.0\",\n  \"repository\": \"homer0/projext-plugin-webpack-aurelia\",\n  \"author\": \"Leonardo Apiwan (@homer0) <me@homer0.com>\",\n  \"license\": \"MIT\",\n  \"dependencies\": {\n    \"aurelia-extract-clean-loader\": \"^3.0.0\",\n    \"aurelia-webpack-plugin\": \"^4.0.0\",\n    \"aurelia-loader-webpack\": \"^2.2.1\",\n    \"aurelia-loader-nodejs\": \"^1.0.1\",\n    \"aurelia-pal-nodejs\": \"^1.2.0\",\n\n    \"aurelia-templating\": \"^1.10.2\",\n    \"aurelia-dependency-injection\": \"^1.5.2\",\n    \"aurelia-path\": \"^1.1.5\",\n\n    \"webpack\": \"^4.41.5\",\n    \"babel-plugin-transform-class-inject-directive\": \"^3.0.0\"\n  },\n  \"devDependencies\": {\n    \"wootils\": \"^3.0.1\",\n    \"eslint\": \"^6.8.0\",\n    \"eslint-plugin-homer0\": \"^3.0.0\",\n    \"@babel/core\": \"7.7.7\",\n    \"@babel/preset-env\": \"7.7.7\",\n    \"@babel/plugin-transform-runtime\": \"7.7.6\",\n    \"jest-ex\": \"^7.0.1\",\n    \"jest-cli\": \"^24.9.0\",\n    \"jasmine-expect\": \"^4.0.3\",\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"esdoc-node\": \"1.0.4\",\n    \"coveralls\": \"^3.0.9\",\n    \"husky\": \"^3.1.0\"\n  },\n  \"engine-strict\": true,\n  \"engines\": {\n    \"node\": \">=10.13.0\"\n  },\n  \"main\": \"src/index.js\",\n  \"husky\": {\n    \"hooks\": {\n      \"pre-commit\": \"./utils/hooks/pre-commit\",\n      \"post-merge\": \"./utils/hooks/post-merge\"\n    }\n  },\n  \"scripts\": {\n    \"test\": \"./utils/scripts/test\",\n    \"lint\": \"./utils/scripts/lint\",\n    \"lint:full\": \"./utils/scripts/lint-full\",\n    \"docs\": \"./utils/scripts/docs\"\n  }\n}\n",
     "longname": "/Users/homer0/CODE/node/projext/projext-plugin-webpack-aurelia/package.json",
     "name": "package.json",
     "static": true,
